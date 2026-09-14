@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>House of Adheera - Luxury Management Suite</title>
+    
+    <!-- iPhone Home Screen App Icon Settings -->
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icon.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -775,19 +782,19 @@
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
         document.getElementById('theme-btn').innerText = newTheme === 'dark' ? '☀️' : '🌙';
-        localStorage.setItem('adheera_theme_v16', newTheme);
+        localStorage.setItem('adheera_theme_v18', newTheme);
     }
 
     function loadData() {
         try {
-            const savedTheme = localStorage.getItem('adheera_theme_v16');
+            const savedTheme = localStorage.getItem('adheera_theme_v18');
             if (savedTheme) {
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-btn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
             }
-            const savedTx = localStorage.getItem('adheera_tx_mob_v16');
-            const savedOrd = localStorage.getItem('adheera_orders_mob_v16');
-            const savedMeas = localStorage.getItem('adheera_measure_v16');
+            const savedTx = localStorage.getItem('adheera_tx_mob_v18');
+            const savedOrd = localStorage.getItem('adheera_orders_mob_v18');
+            const savedMeas = localStorage.getItem('adheera_measure_v18');
             if (savedTx) transactions = JSON.parse(savedTx);
             if (savedOrd) orders = JSON.parse(savedOrd);
             if (savedMeas) measurementsBook = JSON.parse(savedMeas);
@@ -795,9 +802,9 @@
     }
 
     function saveData() {
-        localStorage.setItem('adheera_tx_mob_v16', JSON.stringify(transactions));
-        localStorage.setItem('adheera_orders_mob_v16', JSON.stringify(orders));
-        localStorage.setItem('adheera_measure_v16', JSON.stringify(measurementsBook));
+        localStorage.setItem('adheera_tx_mob_v18', JSON.stringify(transactions));
+        localStorage.setItem('adheera_orders_mob_v18', JSON.stringify(orders));
+        localStorage.setItem('adheera_measure_v18', JSON.stringify(measurementsBook));
         updateSuggestions();
     }
 
