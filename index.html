@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>House of Adheera - Luxury Management Suite</title>
     
-    <!-- iPhone Home Screen App Icon Settings -->
+    <!-- iPhone Home Screen App Icon & Web App Settings -->
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
     <link rel="apple-touch-icon" sizes="167x167" href="icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Adheera">
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -782,19 +785,19 @@
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
         document.getElementById('theme-btn').innerText = newTheme === 'dark' ? '☀️' : '🌙';
-        localStorage.setItem('adheera_theme_v18', newTheme);
+        localStorage.setItem('adheera_theme_v19', newTheme);
     }
 
     function loadData() {
         try {
-            const savedTheme = localStorage.getItem('adheera_theme_v18');
+            const savedTheme = localStorage.getItem('adheera_theme_v19');
             if (savedTheme) {
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-btn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
             }
-            const savedTx = localStorage.getItem('adheera_tx_mob_v18');
-            const savedOrd = localStorage.getItem('adheera_orders_mob_v18');
-            const savedMeas = localStorage.getItem('adheera_measure_v18');
+            const savedTx = localStorage.getItem('adheera_tx_mob_v19');
+            const savedOrd = localStorage.getItem('adheera_orders_mob_v19');
+            const savedMeas = localStorage.getItem('adheera_measure_v19');
             if (savedTx) transactions = JSON.parse(savedTx);
             if (savedOrd) orders = JSON.parse(savedOrd);
             if (savedMeas) measurementsBook = JSON.parse(savedMeas);
@@ -802,9 +805,9 @@
     }
 
     function saveData() {
-        localStorage.setItem('adheera_tx_mob_v18', JSON.stringify(transactions));
-        localStorage.setItem('adheera_orders_mob_v18', JSON.stringify(orders));
-        localStorage.setItem('adheera_measure_v18', JSON.stringify(measurementsBook));
+        localStorage.setItem('adheera_tx_mob_v19', JSON.stringify(transactions));
+        localStorage.setItem('adheera_orders_mob_v19', JSON.stringify(orders));
+        localStorage.setItem('adheera_measure_v19', JSON.stringify(measurementsBook));
         updateSuggestions();
     }
 
