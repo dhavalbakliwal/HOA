@@ -765,6 +765,9 @@
 </div>
 
 <script>
+    // Google Apps Script Web App URL connected
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkknShHMsoC-7DVyKQCO0brz1IjnBR73Gmm-5HvAW7AqKn7xG6W6kMwh9ABM5bxdURvw/exec";
+
     let transactions = [];
     let orders = [];
     let measurementsBook = {}; 
@@ -776,7 +779,6 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         loadData();
-        refreshAllData();
     });
 
     function toggleTheme() {
@@ -785,30 +787,56 @@
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
         document.getElementById('theme-btn').innerText = newTheme === 'dark' ? '☀️' : '🌙';
-        localStorage.setItem('adheera_theme_v19', newTheme);
+        localStorage.setItem('adheera_theme_v20', newTheme);
     }
 
-    function loadData() {
+    async function loadData() {
         try {
-            const savedTheme = localStorage.getItem('adheera_theme_v19');
+            const savedTheme = localStorage.getItem('adheera_theme_v20');
             if (savedTheme) {
                 document.body.setAttribute('data-theme', savedTheme);
                 document.getElementById('theme-btn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
             }
-            const savedTx = localStorage.getItem('adheera_tx_mob_v19');
-            const savedOrd = localStorage.getItem('adheera_orders_mob_v19');
-            const savedMeas = localStorage.getItem('adheera_measure_v19');
+
+            const savedTx = localStorage.getItem('adheera_tx_mob_v20');
+            const savedOrd = localStorage.getItem('adheera_orders_mob_v20');
+            const savedMeas = localStorage.getItem('adheera_measure_v20');
             if (savedTx) transactions = JSON.parse(savedTx);
             if (savedOrd) orders = JSON.parse(savedOrd);
             if (savedMeas) measurementsBook = JSON.parse(savedMeas);
-        } catch(e) { console.error(e); }
+
+            if (SCRIPT_URL) {
+                const response = await fetch(SCRIPT_URL);
+                const cloudData = await response.json();
+                if (cloudData && cloudData.transactions) {
+                    transactions = cloudData.transactions || [];
+                    orders = cloudData.orders || [];
+                    measurementsBook = cloudData.measurementsBook || {};
+                    
+                    localStorage.setItem('adheera_tx_mob_v20', JSON.stringify(transactions));
+                    localStorage.setItem('adheera_orders_mob_v20', JSON.stringify(orders));
+                    localStorage.setItem('adheera_measure_v20', JSON.stringify(measurementsBook));
+                }
+            }
+        } catch(e) { console.error("Cloud sync load error, using local cache", e); }
+        refreshAllData();
     }
 
     function saveData() {
-        localStorage.setItem('adheera_tx_mob_v19', JSON.stringify(transactions));
-        localStorage.setItem('adheera_orders_mob_v19', JSON.stringify(orders));
-        localStorage.setItem('adheera_measure_v19', JSON.stringify(measurementsBook));
+        localStorage.setItem('adheera_tx_mob_v20', JSON.stringify(transactions));
+        localStorage.setItem('adheera_orders_mob_v20', JSON.stringify(orders));
+        localStorage.setItem('adheera_measure_v20', JSON.stringify(measurementsBook));
         updateSuggestions();
+
+        if (SCRIPT_URL) {
+            const payload = { transactions, orders, measurementsBook };
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log("Cloud sync background error", err));
+        }
     }
 
     function startVoiceInput(amountInputId, nameInputId) {
@@ -1398,7 +1426,8 @@
                         if (tx.category === 'Personal Withdrawal') sumOutPers += tx.amount;
                         else sumOutBiz += tx.amount;
                         
-                        if (tx.category === 'Karigar' || (tx.payee && !tx.payee.startsWith('Fabric') && !tx.payee.startsWith('Accessories') && !tx.payee.startsWith('Landlord'))) {
+                        // Strict filter: Only consider transactions whose category is 'Karigar'
+                        if (tx.category === 'Karigar') {
                             let kName = tx.payee ? tx.payee.split(' (')[0].trim() : 'Unknown Karigar';
                             if (kName) {
                                 let canonical = getNormalizedCanonicalName(kName, new Set(Object.keys(karigarTotals)));
@@ -1419,7 +1448,8 @@
                     if (tx.category === 'Personal Withdrawal') sumOutPers += tx.amount;
                     else sumOutBiz += tx.amount;
                     
-                    if (tx.category === 'Karigar' || (tx.payee && !tx.payee.startsWith('Fabric') && !tx.payee.startsWith('Accessories') && !tx.payee.startsWith('Landlord'))) {
+                    // Strict filter: Only consider transactions whose category is 'Karigar'
+                    if (tx.category === 'Karigar') {
                         let kName = tx.payee ? tx.payee.split(' (')[0].trim() : 'Unknown Karigar';
                         if (kName) {
                             let canonical = getNormalizedCanonicalName(kName, new Set(Object.keys(karigarTotals)));
