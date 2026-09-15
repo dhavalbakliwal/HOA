@@ -929,7 +929,7 @@
         </div>
     </div>
 
-    <!-- SMOOTH LOADING SCREEN (AFTER PASSWORD) -->
+    <!-- SMOOTH LOADING SCREEN (2.25 SECONDS) -->
     <div id="loading-screen">
         <div class="loader-spinner"></div>
         <h2 style="font-size: 18px; font-weight: 700; color: var(--primary); letter-spacing: 0.5px;">House of Adheera</h2>
@@ -1526,7 +1526,7 @@
                 const loadingScreen = document.getElementById('loading-screen');
                 loadingScreen.classList.add('active');
 
-                // 3. Keep loading for 1.4s, then fade out and trigger smooth home transitions
+                // 3. Keep loading for exactly 2.25 seconds (2250ms), then fade out and trigger smooth home transitions
                 setTimeout(() => {
                     loadingScreen.classList.remove('active');
                     loadingScreen.classList.add('fade-out');
@@ -1537,7 +1537,7 @@
                     setTimeout(() => {
                         loadingScreen.style.display = 'none';
                     }, 600);
-                }, 1400);
+                }, 2250);
 
             }, 400);
         } else {
