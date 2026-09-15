@@ -76,13 +76,13 @@
         }
 
         body::before {
-            background: linear-gradient(135deg, #D4AF3744, #F3E5AB44);
+            background: linear-gradient(135deg, rgba(212,175,55,0.25), rgba(243,229,171,0.25));
             top: -100px;
             left: -100px;
         }
 
         body::after {
-            background: linear-gradient(135deg, #5B4B8A44, #D4AF3722);
+            background: linear-gradient(135deg, rgba(91,75,138,0.25), rgba(212,175,55,0.15));
             bottom: -50px;
             right: -100px;
             animation-delay: -6s;
@@ -237,7 +237,7 @@
             transition: all 0.2s ease;
             color: var(--primary);
         }
-        input:focus, select:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15); }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15); }
         input[readonly] { background: rgba(0,0,0,0.04); color: var(--text-muted); }
         .amount-input { font-size: 22px; font-weight: 700; color: var(--accent-gold); }
 
@@ -340,7 +340,12 @@
         .graph-bar-track { background: rgba(0,0,0,0.1); height: 10px; border-radius: 5px; overflow: hidden; display: flex; }
         .graph-bar-fill { height: 100%; border-radius: 5px; transition: width 0.5s ease; }
 
-        /* Smooth Modal Pop Animations */
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .space-y-12 { display: flex; flex-direction: column; gap: 12px; }
+        .full-width { width: 100%; }
+        .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -437,7 +442,7 @@
             <div class="card full-width">
                 <div class="card-title">Available Balance</div>
                 <div class="card-amount text-gold" id="dash-balance">₹0</div>
-                <div class="card-desc">Actual liquidity & bank funds remaining.</div>
+                <div class="card-desc">Actual liquidity &amp; bank funds remaining.</div>
             </div>
             <div class="card full-width" style="background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.18));">
                 <div class="card-title" style="color: var(--accent-gold);">Boutique Net Profit</div>
@@ -467,12 +472,12 @@
         <header>
             <div class="header-title-box">
                 <h1 id="in-title">Record Inflow 💰</h1>
-                <p class="subtitle">Log client payments & deposits.</p>
+                <p class="subtitle">Log client payments &amp; deposits.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
         <div class="form-group">
-            <label style="display:flex; justify-content:space-between;">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')">🎙️ Speak</button></label>
+            <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')">🎙️ Speak</button></label>
             <input type="number" id="in-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="in-date"></div>
@@ -505,12 +510,12 @@
         <header>
             <div class="header-title-box">
                 <h1 id="out-title">Record Expense 💸</h1>
-                <p class="subtitle">Log studio overheads & payouts.</p>
+                <p class="subtitle">Log studio overheads &amp; payouts.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
         <div class="form-group">
-            <label style="display:flex; justify-content:space-between;">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')">🎙️ Speak</button></label>
+            <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')">🎙️ Speak</button></label>
             <input type="number" id="out-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="out-date"></div>
@@ -547,7 +552,7 @@
         <header>
             <div class="header-title-box">
                 <h1>Clients Overview 👥</h1>
-                <p class="subtitle">Profiles, Naap Book & Order History.</p>
+                <p class="subtitle">Profiles, Naap Book &amp; Order History.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
@@ -560,7 +565,7 @@
         <header>
             <div class="header-title-box">
                 <h1 id="ord-title">New Order ✨</h1>
-                <p class="subtitle">Custom tailoring & instant profit calculator.</p>
+                <p class="subtitle">Custom tailoring &amp; instant profit calculator.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
@@ -612,7 +617,7 @@
             <button class="btn-outline" onclick="addKarigarField()">+ Add Another Karigar</button>
         </div>
 
-        <div class="form-group"><label>Accessories & Other Expenses</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit()"></div>
+        <div class="form-group"><label>Accessories &amp; Other Expenses</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit()"></div>
 
         <div class="calc-box">
             <div class="calc-row"><span>Total Bill:</span> <span id="calc-price">₹0</span></div>
@@ -631,7 +636,7 @@
         <header>
             <div class="header-title-box">
                 <h1>Financial Reports 📊</h1>
-                <p class="subtitle">Analytics, monthly breakdown & VIP insights.</p>
+                <p class="subtitle">Analytics, monthly breakdown &amp; VIP insights.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
@@ -650,7 +655,7 @@
             <h3 id="selected-summary-title" style="margin-bottom:12px; color:var(--primary); font-size:16px;">Breakdown</h3>
             <div class="calc-row"><span>Total Inflow:</span> <span id="sum-in" class="text-green">₹0</span></div>
             <div class="calc-row"><span>Studio Expenses:</span> <span id="sum-out-biz" class="text-red">₹0</span></div>
-            <div class="calc-row"><span>Personal Withdrawals:</span> <span id="sum-out-pers" class="text-text-muted">₹0</span></div>
+            <div class="calc-row"><span>Personal Withdrawals:</span> <span id="sum-out-pers" class="text-muted">₹0</span></div>
             <div class="calc-total">Net Cash Profit: <span id="sum-profit" class="text-gold">₹0</span></div>
 
             <div class="graph-container">
@@ -662,6 +667,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- NEW: EXPENSES CATEGORY BREAKDOWN SECTION -->
+        <div class="calc-box" id="expenses-summary-section" style="display:none; background: linear-gradient(135deg, rgba(211,47,47,0.04), rgba(212,175,55,0.08)); border: var(--card-border);">
+            <h3 style="margin-bottom:12px; color:var(--danger); font-size:16px;">🧾 Expense Categories Breakdown</h3>
+            <div id="expenses-summary-list"></div>
         </div>
 
         <div class="calc-box" id="vip-customers-section" style="background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.15)); border: var(--card-border);">
@@ -683,7 +694,7 @@
         <div class="modal-card">
             <div class="invoice-header">
                 <h2>House of Adheera ✨</h2>
-                <p style="font-size:12px; color:var(--text-muted);">Exclusive Designer Boutique & Studio</p>
+                <p style="font-size:12px; color:var(--text-muted);">Exclusive Designer Boutique &amp; Studio</p>
                 <p style="font-size:11px; margin-top:4px;" id="inv-date">Date: </p>
             </div>
             
@@ -739,7 +750,7 @@
                 <div class="form-group"><label>Chest / Bust (Inches)</label><input type="text" id="m-chest" placeholder="E.g., 36"></div>
                 <div class="form-group"><label>Waist (Inches)</label><input type="text" id="m-waist" placeholder="E.g., 30"></div>
                 <div class="form-group"><label>Length / Height (Inches)</label><input type="text" id="m-length" placeholder="E.g., 40"></div>
-                <div class="form-group"><label>Sleeves (Length & Armhole)</label><input type="text" id="m-sleeves" placeholder="E.g., 18 / 16"></div>
+                <div class="form-group"><label>Sleeves (Length &amp; Armhole)</label><input type="text" id="m-sleeves" placeholder="E.g., 18 / 16"></div>
                 <div class="form-group"><label>Shoulder</label><input type="text" id="m-shoulder" placeholder="E.g., 14.5"></div>
                 <div class="form-group"><label>Special Notes</label><textarea id="m-notes" placeholder="Extra margin, neck style..."></textarea></div>
             </div>
@@ -765,7 +776,6 @@
 </div>
 
 <script>
-    // Google Apps Script Web App URL connected
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkknShHMsoC-7DVyKQCO0brz1IjnBR73Gmm-5HvAW7AqKn7xG6W6kMwh9ABM5bxdURvw/exec";
 
     let transactions = [];
@@ -965,9 +975,7 @@
     function addProductField(name = '', price = '') {
         const container = document.getElementById('products-container');
         const div = document.createElement('div');
-        div.style.display = 'flex';
-        div.style.gap = '8px';
-        div.style.marginBottom = '8px';
+        div.className = 'input-row';
         div.innerHTML = `
             <input type="text" class="p-name" placeholder="Product Name" value="${name}" style="flex:2;">
             <input type="number" class="p-price" placeholder="₹ Price" value="${price}" style="flex:1;" oninput="calculateOrderProfit()">
@@ -979,9 +987,7 @@
     function addKarigarField(name = '', cost = '') {
         const container = document.getElementById('karigars-container');
         const div = document.createElement('div');
-        div.style.display = 'flex';
-        div.style.gap = '8px';
-        div.style.marginBottom = '8px';
+        div.className = 'input-row';
         div.innerHTML = `
             <input type="text" class="k-name" list="karigar-suggestions" placeholder="Karigar Name" value="${name}" style="flex:1;">
             <input type="number" class="k-cost" placeholder="₹ Cost" value="${cost}" style="flex:1;" oninput="calculateOrderProfit()">
@@ -1315,10 +1321,10 @@
                 measBadgeHtml = `
                     <div class="measurement-badge">
                         <span>📐 Naap:</span>
-                        ${mData.chest ? `Chest: ${mData.chest}"` : ''}
-                        ${mData.waist ? `Waist: ${mData.waist}"` : ''}
-                        ${mData.length ? `Len: ${mData.length}"` : ''}
-                        ${mData.shoulders ? `Sh: ${mData.shoulders}"` : ''}
+                        ${mData.chest ? `Chest: ${mData.chest}" ` : ''}
+                        ${mData.waist ? `Waist: ${mData.waist}" ` : ''}
+                        ${mData.length ? `Len: ${mData.length}" ` : ''}
+                        ${mData.shoulder ? `Sh: ${mData.shoulder}" ` : ''}
                         ${mData.notes ? `<br>📝 Notes: ${mData.notes}` : ''}
                     </div>
                 `;
@@ -1343,7 +1349,7 @@
 
                 <h4 style="font-size:13px; color:var(--primary); margin:10px 0 6px; font-weight:700;">Order History:</h4>
                 
-                ${group.orders.reverse().map(ord => {
+                ${group.orders.slice().reverse().map(ord => {
                     const pending = ord.totalPrice - ord.receivedAmount;
                     const itemsStr = ord.items.map(i => `${i.name} (${formatMoney(i.price)})`).join(', ');
                     return `
@@ -1366,7 +1372,7 @@
                             <button class="btn-small btn-delete" onclick="deleteOrder('${ord.id}')">Delete</button>
                         </div>
                     </div>
-                    `
+                    `;
                 }).join('')}
             </div>
             `;
@@ -1406,8 +1412,19 @@
     function renderSummary() {
         let sumIn = 0, sumOutBiz = 0, sumOutPers = 0; 
         let karigarTotals = {};
+        let categoryTotals = {};
         let customerRevenue = {};
         let filteredTx = [];
+
+        const categoryIcons = {
+            'Rent': '🏠 Rent',
+            'Electricity': '⚡ Electricity',
+            'Travel': '🚕 Travel / Market',
+            'Accessories': '🎀 Accessories',
+            'Fabric': '🧵 Fabric',
+            'Personal Withdrawal': '👩 Personal Withdrawal',
+            'Other': '📝 Other'
+        };
 
         if (currentSummaryMode === 'monthly') {
             const selectedMonth = document.getElementById('summary-month-select').value;
@@ -1426,13 +1443,15 @@
                         if (tx.category === 'Personal Withdrawal') sumOutPers += tx.amount;
                         else sumOutBiz += tx.amount;
                         
-                        // Strict filter: Only consider transactions whose category is 'Karigar'
                         if (tx.category === 'Karigar') {
                             let kName = tx.payee ? tx.payee.split(' (')[0].trim() : 'Unknown Karigar';
                             if (kName) {
                                 let canonical = getNormalizedCanonicalName(kName, new Set(Object.keys(karigarTotals)));
                                 karigarTotals[canonical] = (karigarTotals[canonical] || 0) + tx.amount;
                             }
+                        } else {
+                            let catLabel = categoryIcons[tx.category] || tx.category || '📝 Other';
+                            categoryTotals[catLabel] = (categoryTotals[catLabel] || 0) + tx.amount;
                         }
                     }
                 }
@@ -1448,13 +1467,15 @@
                     if (tx.category === 'Personal Withdrawal') sumOutPers += tx.amount;
                     else sumOutBiz += tx.amount;
                     
-                    // Strict filter: Only consider transactions whose category is 'Karigar'
                     if (tx.category === 'Karigar') {
                         let kName = tx.payee ? tx.payee.split(' (')[0].trim() : 'Unknown Karigar';
                         if (kName) {
                             let canonical = getNormalizedCanonicalName(kName, new Set(Object.keys(karigarTotals)));
                             karigarTotals[canonical] = (karigarTotals[canonical] || 0) + tx.amount;
                         }
+                    } else {
+                        let catLabel = categoryIcons[tx.category] || tx.category || '📝 Other';
+                        categoryTotals[catLabel] = (categoryTotals[catLabel] || 0) + tx.amount;
                     }
                 }
             });
@@ -1469,6 +1490,18 @@
         document.getElementById('graph-in-fill').style.width = `${totalFlow > 0 ? (sumIn / totalFlow) * 100 : 50}%`;
         document.getElementById('graph-out-fill').style.width = `${totalFlow > 0 ? (sumOutBiz / totalFlow) * 100 : 50}%`;
         
+        // Render Expenses Category Breakdown Section
+        const expSection = document.getElementById('expenses-summary-section');
+        if (Object.keys(categoryTotals).length > 0) {
+            expSection.style.display = 'block';
+            document.getElementById('expenses-summary-list').innerHTML = Object.keys(categoryTotals).map(cat => `
+                <div class="calc-row" style="border-bottom: 1px dashed rgba(212,175,55,0.2); padding-bottom: 6px;">
+                    <span style="font-weight:500;">${cat}:</span> 
+                    <span style="font-weight:700; color:var(--danger);">${formatMoney(categoryTotals[cat])}</span>
+                </div>
+            `).join('');
+        } else { expSection.style.display = 'none'; }
+
         let sortedVIP = Object.entries(customerRevenue).sort((a,b) => b[1] - a[1]).slice(0, 3);
         const vipSection = document.getElementById('vip-customers-section');
         if (sortedVIP.length > 0) {
