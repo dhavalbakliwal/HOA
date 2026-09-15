@@ -14,135 +14,158 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Adheera">
 
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #F9F6F0;
+            --bg-color: #F7F5F0;
             --surface-color: #FFFFFF;
-            --primary: #1A1A1A;
-            --accent-gold: #D4AF37;
-            --accent-gold-light: #F3E5AB;
+            --surface-glass: rgba(255, 255, 255, 0.85);
+            --primary: #111111;
+            --accent-gold: #C5A059;
+            --accent-gold-light: #FBF7EC;
             --accent-purple: #5B4B8A;
-            --text-main: #2C2C2C;
-            --text-muted: #737373;
-            --success: #00897B;
-            --danger: #D32F2F;
-            --warning: #F57F17;
-            --shadow: 0 15px 35px rgba(212, 175, 55, 0.08);
-            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --success: #00712D;
+            --danger: #C93B2B;
+            --warning: #B25E00;
+            --shadow: 0 20px 40px -15px rgba(197, 160, 89, 0.12), 0 10px 20px -10px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 4px 16px -4px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 24px 48px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(197, 160, 89, 0.15);
             --border-radius: 24px;
-            --card-border: 1px solid rgba(212, 175, 55, 0.2);
+            --card-border: 1px solid rgba(197, 160, 89, 0.18);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --surface-color: #1E1E1E;
-            --primary: #F9F6F0;
-            --accent-gold: #E5C158;
-            --accent-gold-light: #2A2514;
+            --bg-color: #0A0A0C;
+            --surface-color: #161618;
+            --surface-glass: rgba(22, 22, 24, 0.85);
+            --primary: #F5F5F7;
+            --accent-gold: #D4AF37;
+            --accent-gold-light: #221E12;
             --accent-purple: #9D84ED;
-            --text-main: #E0E0E0;
-            --text-muted: #A0A0A0;
-            --success: #26A69A;
-            --danger: #EF5350;
-            --warning: #FFEE58;
-            --shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
-            --card-border: 1px solid rgba(229, 193, 88, 0.15);
+            --text-main: #F5F5F7;
+            --text-muted: #98989D;
+            --success: #30D158;
+            --danger: #FF453A;
+            --warning: #FF9F0A;
+            --shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 55, 0.15);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.25);
+            --card-border: 1px solid rgba(212, 175, 55, 0.15);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding-bottom: 110px;
+            padding-bottom: 120px;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+            background-image: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.04) 0%, transparent 60%);
         }
 
-        body::before, body::after {
+        /* Ambient Textile / Depth Mesh */
+        body::before {
             content: '';
             position: fixed;
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            filter: blur(80px);
+            top: 0; left: 0; right: 0; height: 100vh;
+            background: radial-gradient(circle at 85% 10%, rgba(197,175,55,0.06) 0%, transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(91,75,138,0.04) 0%, transparent 40%);
             z-index: -1;
-            opacity: 0.35;
-            animation: floatGlow 12s infinite alternate ease-in-out;
-        }
-
-        body::before {
-            background: linear-gradient(135deg, rgba(212,175,55,0.25), rgba(243,229,171,0.25));
-            top: -100px;
-            left: -100px;
-        }
-
-        body::after {
-            background: linear-gradient(135deg, rgba(91,75,138,0.25), rgba(212,175,55,0.15));
-            bottom: -50px;
-            right: -100px;
-            animation-delay: -6s;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 40px) scale(1.1); }
+            pointer-events: none;
         }
 
         .app-container {
-            max-width: 480px;
+            max-width: 420px;
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
+            padding: 0 16px;
+        }
+
+        /* Professional Vector Icon Helper */
+        .icon-svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            display: inline-block;
+            vertical-align: middle;
+            transition: transform 0.2s ease;
         }
 
         header {
-            padding: 32px 20px 16px;
+            padding: 28px 4px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            align-items: center;
+            animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(-16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .header-title-box h1 { font-size: 26px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; margin-bottom: 4px; }
-        .header-title-box p.subtitle { color: var(--text-muted); font-size: 13px; font-weight: 400; letter-spacing: 0.2px; }
+        .header-title-box h1 { 
+            font-size: 24px; 
+            font-weight: 700; 
+            color: var(--primary); 
+            letter-spacing: -0.6px; 
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-title-box p.subtitle { 
+            color: var(--text-muted); 
+            font-size: 12px; 
+            font-weight: 500; 
+            letter-spacing: 0.3px; 
+            text-transform: uppercase;
+        }
 
         .theme-toggle-btn {
-            background: var(--surface-color);
+            background: var(--surface-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: var(--card-border);
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            color: var(--primary);
             cursor: pointer;
             box-shadow: var(--shadow-sm);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
         }
-        .theme-toggle-btn:active { transform: scale(0.9); }
+        .theme-toggle-btn:active { transform: scale(0.92); }
 
-        .view { display: none; padding: 0 16px 20px; opacity: 0; transform: translateY(15px); }
-        .view.active { display: block; animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .view { display: none; padding: 0 0 20px; opacity: 0; transform: translateY(12px); }
+        .view.active { display: block; animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 3D Surface Depth Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
         .card {
-            background: var(--surface-color);
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
             padding: 20px;
             box-shadow: var(--shadow);
@@ -152,57 +175,74 @@
             border: var(--card-border);
             position: relative;
             overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+            box-shadow: var(--shadow), var(--inner-glow);
         }
         .card:active { transform: scale(0.97); }
         .card.full-width { grid-column: span 2; }
         
         .card-title { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; }
-        .card-amount { font-size: 26px; font-weight: 700; color: var(--primary); word-break: break-all; }
-        .card-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.3; }
+        .card-amount { font-size: 26px; font-weight: 700; color: var(--primary); word-break: break-all; letter-spacing: -0.5px; }
+        .card-desc { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; font-weight: 400; }
 
-        .text-green { color: var(--success); }
-        .text-red { color: var(--danger); }
-        .text-gold { color: var(--accent-gold); }
-        .text-warning { color: var(--warning); }
+        .text-green { color: var(--success) !important; }
+        .text-red { color: var(--danger) !important; }
+        .text-gold { color: var(--accent-gold) !important; }
+        .text-warning { color: var(--warning) !important; }
 
-        .quick-actions { display: flex; gap: 12px; margin-bottom: 24px; }
+        /* Quick Actions Bar */
+        .quick-actions { display: flex; gap: 10px; margin-bottom: 24px; }
         .btn-action {
             flex: 1;
-            padding: 16px 10px;
+            padding: 16px 8px;
             border-radius: 20px;
             border: var(--card-border);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            box-shadow: var(--shadow-sm);
-            background: var(--surface-color);
+            gap: 8px;
+            box-shadow: var(--shadow-sm), var(--inner-glow);
+            background: var(--surface-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             color: var(--primary);
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-action:active { transform: scale(0.94); }
-        .btn-in span { color: var(--success); }
-        .btn-out span { color: var(--danger); }
-        .btn-dress span { color: var(--accent-gold); }
+        .btn-action .icon-svg { width: 22px; height: 22px; }
+        .btn-in .icon-svg { color: var(--success); }
+        .btn-out .icon-svg { color: var(--danger); }
+        .btn-dress .icon-svg { color: var(--accent-gold); }
 
+        /* Reminder Box Depth */
         .reminder-box {
-            background: var(--accent-gold-light);
-            border: 1px solid var(--accent-gold);
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(197, 160, 89, 0.3);
             border-radius: var(--border-radius);
-            padding: 16px;
+            padding: 18px;
             margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow), var(--inner-glow);
         }
-        .reminder-box h3 { color: #8A6D00; margin-bottom: 10px; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-        [data-theme="dark"] .reminder-box h3 { color: #F3E5AB; }
+        .reminder-box h3 { 
+            color: var(--accent-gold); 
+            margin-bottom: 12px; 
+            font-size: 13px; 
+            font-weight: 700; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
         
         .reminder-scroll-container {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             padding-bottom: 4px;
@@ -217,166 +257,191 @@
             flex-direction: column;
             justify-content: space-between;
             background: var(--surface-color);
-            padding: 14px;
-            border-radius: 16px;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            padding: 16px;
+            border-radius: 18px;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
             border: var(--card-border);
         }
 
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--primary); letter-spacing: 0.2px; }
+        /* Form & Input Components */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
         input, select, textarea {
             width: 100%;
             padding: 16px 18px;
-            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border: 1.5px solid rgba(197, 160, 89, 0.2);
             border-radius: 18px;
             font-size: 15px;
+            font-weight: 500;
             background: var(--surface-color);
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             color: var(--primary);
+            box-shadow: var(--inner-glow);
         }
-        input:focus, select:focus, textarea:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15); }
-        input[readonly] { background: rgba(0,0,0,0.04); color: var(--text-muted); }
-        .amount-input { font-size: 22px; font-weight: 700; color: var(--accent-gold); }
+        input:focus, select:focus, textarea:focus { 
+            border-color: var(--accent-gold); 
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15), var(--inner-glow); 
+        }
+        input[readonly] { background: rgba(0,0,0,0.03); color: var(--text-muted); }
+        [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
+        .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
         .radio-group { display: flex; gap: 10px; }
         .radio-btn {
             flex: 1;
             padding: 14px 10px;
             text-align: center;
-            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border: 1.5px solid rgba(197, 160, 89, 0.2);
             border-radius: 16px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             background: var(--surface-color);
             color: var(--primary);
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
         }
-        .radio-btn.selected { background: var(--primary); color: var(--bg-color); border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .radio-btn.selected { 
+            background: var(--primary); 
+            color: var(--bg-color); 
+            border-color: var(--primary); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        }
 
         .btn-save {
             width: 100%;
             padding: 18px;
             border-radius: 18px;
             border: none;
-            background: linear-gradient(135deg, var(--accent-gold), #B89728);
-            color: #1A1A1A;
-            font-size: 16px;
+            background: linear-gradient(135deg, var(--accent-gold), #A47E36);
+            color: #111111;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 8px 25px rgba(212,175,55,0.25);
-            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 12px;
+            box-shadow: 0 12px 30px rgba(197,160,89,0.3);
+            transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease;
+            letter-spacing: 0.3px;
         }
         .btn-save:active { transform: scale(0.96); }
         
         .btn-outline {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border-radius: 16px;
-            border: 2px dashed var(--accent-gold);
-            background: var(--surface-color);
+            border: 1.5px dashed var(--accent-gold);
+            background: var(--surface-glass);
+            backdrop-filter: blur(12px);
             color: var(--primary);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 6px;
             margin-bottom: 14px;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
+        .btn-outline:active { background: rgba(197,160,89,0.08); }
 
-        .section-title { font-size: 18px; font-weight: 700; margin: 24px 0 14px; color: var(--primary); letter-spacing: -0.3px; }
+        .section-title { font-size: 16px; font-weight: 700; margin: 28px 0 14px; color: var(--primary); letter-spacing: -0.3px; display: flex; align-items: center; justify-content: space-between; }
+        
         .list-item {
-            background: var(--surface-color);
-            border-radius: 18px;
-            padding: 16px;
+            background: var(--surface-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 18px;
             margin-bottom: 12px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-sm), var(--inner-glow);
             border: var(--card-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            transition: transform 0.2s ease;
         }
         
         .customer-card {
-            background: var(--surface-color);
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
-            padding: 18px;
+            padding: 20px;
             margin-bottom: 16px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow), var(--inner-glow);
             border: var(--card-border);
         }
-        .customer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid rgba(212,175,55,0.15); padding-bottom: 10px; gap: 10px; }
-        .customer-header h2 { font-size: 18px; font-weight: 700; color: var(--primary); text-transform: capitalize; }
+        .customer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1.5px solid rgba(197,160,89,0.15); padding-bottom: 12px; gap: 10px; }
+        .customer-header h2 { font-size: 18px; font-weight: 700; color: var(--primary); text-transform: capitalize; letter-spacing: -0.4px; }
         
-        .measurement-badge { background: var(--accent-gold-light); color: var(--primary); padding: 10px 14px; border-radius: 14px; font-size: 12px; font-weight: 600; margin-bottom: 12px; border: 1px solid rgba(212,175,55,0.3); line-height: 1.5; }
-        .order-sub-item { background: rgba(212,175,55,0.03); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(212,175,55,0.1); }
+        .measurement-badge { background: var(--accent-gold-light); color: var(--primary); padding: 12px 16px; border-radius: 16px; font-size: 12px; font-weight: 500; margin-bottom: 14px; border: 1px solid rgba(197,160,89,0.25); line-height: 1.6; }
+        .order-sub-item { background: var(--surface-color); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: var(--card-border); box-shadow: var(--shadow-sm); }
         .products-list-display { font-size: 13px; color: var(--text-muted); margin: 6px 0 10px; font-weight: 500; }
 
-        .action-bar { width: 100%; display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid rgba(212,175,55,0.15); padding-top: 10px; flex-wrap: wrap; }
-        .btn-small { padding: 8px 12px; border-radius: 10px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: transform 0.1s; }
+        .action-bar { width: 100%; display: flex; gap: 8px; margin-top: 14px; border-top: 1px solid rgba(197,160,89,0.15); padding-top: 12px; flex-wrap: wrap; }
+        .btn-small { padding: 9px 14px; border-radius: 12px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: transform 0.15s, opacity 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-small:active { transform: scale(0.92); }
-        .btn-edit { background: rgba(0,123,255,0.1); color: #007BFF; }
-        .btn-delete { background: rgba(220,53,69,0.1); color: var(--danger); }
-        .btn-receive { background: rgba(0,137,123,0.1); color: var(--success); flex: 1; text-align: center; }
-        .btn-print { background: rgba(91,75,138,0.1); color: var(--accent-purple); }
-        .btn-measure { background: var(--accent-gold-light); color: var(--primary); border: 1px solid var(--accent-gold); }
+        .btn-edit { background: rgba(0,123,255,0.12); color: #2C82FF; }
+        .btn-delete { background: rgba(201,59,43,0.12); color: var(--danger); }
+        .btn-receive { background: rgba(0,137,123,0.12); color: var(--success); flex: 1; text-align: center; justify-content: center; }
+        .btn-print { background: rgba(91,75,138,0.12); color: var(--accent-purple); }
+        .btn-measure { background: var(--accent-gold-light); color: var(--primary); border: 1px solid var(--accent-gold); width: 100%; justify-content: center; }
 
-        .calc-box { background: var(--surface-color); border-radius: var(--border-radius); padding: 18px; margin-bottom: 20px; box-shadow: var(--shadow-sm); border: var(--card-border); }
-        .calc-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: 500; }
-        .calc-total { font-size: 17px; font-weight: 700; border-top: 1px solid rgba(212,175,55,0.2); padding-top: 10px; margin-top: 10px; color: var(--primary); }
+        .calc-box { background: var(--surface-glass); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-sm), var(--inner-glow); border: var(--card-border); }
+        .calc-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 500; color: var(--text-muted); }
+        .calc-row span:last-child { color: var(--primary); font-weight: 600; }
+        .calc-total { font-size: 18px; font-weight: 700; border-top: 1px solid rgba(197,160,89,0.2); padding-top: 12px; margin-top: 12px; color: var(--primary); display: flex; justify-content: space-between; }
 
-        .summary-tabs { display: flex; background: rgba(212,175,55,0.1); border-radius: 14px; padding: 4px; margin-bottom: 16px; border: 1px solid rgba(212,175,55,0.2); }
-        .summary-tab { flex: 1; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; border-radius: 10px; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
+        .summary-tabs { display: flex; background: rgba(197,160,89,0.08); border-radius: 16px; padding: 5px; margin-bottom: 18px; border: 1px solid rgba(197,160,89,0.18); }
+        .summary-tab { flex: 1; text-align: center; padding: 11px; font-size: 13px; font-weight: 700; border-radius: 12px; cursor: pointer; color: var(--text-muted); transition: all 0.25s ease; }
         .summary-tab.active { background: var(--surface-color); color: var(--primary); box-shadow: var(--shadow-sm); }
 
-        .graph-container { margin-top: 14px; background: rgba(212,175,55,0.05); padding: 12px; border-radius: 14px; }
-        .graph-bar-wrapper { margin-bottom: 8px; }
-        .graph-bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
-        .graph-bar-track { background: rgba(0,0,0,0.1); height: 10px; border-radius: 5px; overflow: hidden; display: flex; }
-        .graph-bar-fill { height: 100%; border-radius: 5px; transition: width 0.5s ease; }
+        .graph-container { margin-top: 16px; background: var(--surface-color); padding: 14px; border-radius: 16px; border: var(--card-border); }
+        .graph-bar-wrapper { margin-bottom: 6px; }
+        .graph-bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
+        .graph-bar-track { background: rgba(0,0,0,0.06); height: 12px; border-radius: 6px; overflow: hidden; display: flex; box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); }
+        [data-theme="dark"] .graph-bar-track { background: rgba(255,255,255,0.06); }
+        .graph-bar-fill { height: 100%; border-radius: 6px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
         .flex-center { display: flex; justify-content: center; align-items: center; }
         .space-y-12 { display: flex; flex-direction: column; gap: 12px; }
         .full-width { width: 100%; }
-        .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
 
+        /* Modals & Bottom Sheets */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 16px;
             opacity: 0;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.3s ease;
         }
         .modal-card {
             background: var(--surface-color);
-            border-radius: 24px;
+            border-radius: 28px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             padding: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-float);
             max-height: 90vh;
             overflow-y: auto;
             border: var(--card-border);
-            transform: scale(0.9) translateY(20px);
-            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform: scale(0.92) translateY(16px);
+            animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes modalPop {
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Bottom Sheet Styling */
         .bottom-sheet-overlay {
             align-items: flex-end;
             padding: 0;
@@ -384,59 +449,73 @@
         .bottom-sheet-card {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
-            border-top-left-radius: 28px;
-            border-top-right-radius: 28px;
-            max-width: 480px;
+            border-top-left-radius: 32px;
+            border-top-right-radius: 32px;
+            max-width: 420px;
             margin: 0 auto;
             transform: translateY(100%);
-            animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUpSheet 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             position: relative;
         }
         @keyframes slideUpSheet {
             to { opacity: 1; transform: translateY(0); }
         }
         .sheet-drag-handle {
-            width: 40px;
+            width: 44px;
             height: 5px;
-            background: rgba(212, 175, 55, 0.4);
+            background: rgba(197, 160, 89, 0.4);
             border-radius: 3px;
-            margin: -10px auto 16px;
+            margin: -6px auto 18px;
         }
 
-        .invoice-header { text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 14px; margin-bottom: 14px; }
-        .invoice-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-        .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(212,175,55,0.2); padding: 8px 4px; text-align: left; }
-        .invoice-table th { color: var(--text-muted); font-weight: 600; }
+        .invoice-header { text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 16px; margin-bottom: 16px; }
+        .invoice-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+        .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(197,160,89,0.2); padding: 10px 6px; text-align: left; }
+        .invoice-table th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; }
 
+        /* Floating Glass Navigation Bar */
         .bottom-nav {
             position: fixed;
-            bottom: 16px;
+            bottom: 20px;
             left: 16px;
             right: 16px;
-            background: var(--surface-color);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--surface-glass);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border-radius: 28px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), var(--inner-glow);
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
+            padding: 10px 0;
             z-index: 100;
-            max-width: 448px;
+            max-width: 388px;
             margin: 0 auto;
             border: var(--card-border);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 600; gap: 3px; cursor: pointer; transition: color 0.2s; }
+        .nav-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-size: 11px; 
+            font-weight: 600; 
+            gap: 4px; 
+            cursor: pointer; 
+            transition: color 0.25s ease; 
+            padding: 4px 16px;
+            border-radius: 16px;
+        }
         .nav-item.active { color: var(--accent-gold); }
-        .nav-icon { font-size: 20px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .nav-item.active .nav-icon { transform: scale(1.2); }
+        .nav-icon { font-size: 20px; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-item.active .nav-icon { transform: scale(1.15); }
 
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
 
         @media print {
             body * { visibility: hidden; }
             #bill-modal, #bill-modal * { visibility: visible; }
-            #bill-modal { position: absolute; left: 0; top: 0; background: white; padding: 0; }
+            #bill-modal { position: absolute; left: 0; top: 0; background: white; padding: 0; width: 100%; }
             .no-print { display: none !important; }
         }
     </style>
@@ -449,10 +528,12 @@
     <div id="view-dashboard" class="view active">
         <header>
             <div class="header-title-box">
-                <h1>Rani Jain ✨</h1>
+                <h1>Rani Jain</h1>
                 <p class="subtitle">House of Adheera Studio</p>
             </div>
-            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
 
         <div id="reminders-container"></div>
@@ -471,7 +552,7 @@
                 <div class="card-amount text-gold" id="dash-balance">₹0</div>
                 <div class="card-desc">Actual liquidity &amp; bank funds remaining.</div>
             </div>
-            <div class="card full-width" style="background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.18));">
+            <div class="card full-width" style="background: linear-gradient(135deg, rgba(197,160,89,0.08), rgba(197,160,89,0.2));">
                 <div class="card-title" style="color: var(--accent-gold);">Boutique Net Profit</div>
                 <div class="card-amount text-gold" id="dash-profit">₹0</div>
                 <div class="card-desc">Gross revenue minus creation cost.</div>
@@ -480,17 +561,22 @@
 
         <div class="quick-actions">
             <button class="btn-action btn-in" onclick="navTo('view-paisa-aaya')">
-                <span style="font-size:22px;">💰</span> Money In
+                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Money In
             </button>
             <button class="btn-action btn-out" onclick="navTo('view-paisa-gaya')">
-                <span style="font-size:22px;">💸</span> Money Out
+                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Money Out
             </button>
             <button class="btn-action btn-dress" onclick="navTo('view-new-order')">
-                <span style="font-size:22px;">👗</span> New Order
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H5v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10h1.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path></svg>
+                New Order
             </button>
         </div>
 
-        <h3 class="section-title">Recent Transactions</h3>
+        <h3 class="section-title">
+            Recent Transactions
+        </h3>
         <div id="recent-transactions-list"></div>
     </div>
 
@@ -498,13 +584,15 @@
     <div id="view-paisa-aaya" class="view">
         <header>
             <div class="header-title-box">
-                <h1 id="in-title">Record Inflow 💰</h1>
+                <h1 id="in-title">Record Inflow</h1>
                 <p class="subtitle">Log client payments &amp; deposits.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
         <div class="form-group">
-            <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')">🎙️ Speak</button></label>
+            <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
             <input type="number" id="in-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="in-date"></div>
@@ -524,8 +612,8 @@
         <div class="form-group">
             <label>Payment Mode</label>
             <div class="radio-group">
-                <div class="radio-btn selected" id="btn-in-cash" onclick="setMode('in', 'Cash')">💵 Cash</div>
-                <div class="radio-btn" id="btn-in-online" onclick="setMode('in', 'Online')">📱 Online</div>
+                <div class="radio-btn selected" id="btn-in-cash" onclick="setMode('in', 'Cash')">Cash</div>
+                <div class="radio-btn" id="btn-in-online" onclick="setMode('in', 'Online')">Online</div>
             </div>
             <input type="hidden" id="in-mode" value="Cash">
         </div>
@@ -536,27 +624,29 @@
     <div id="view-paisa-gaya" class="view">
         <header>
             <div class="header-title-box">
-                <h1 id="out-title">Record Expense 💸</h1>
+                <h1 id="out-title">Record Expense</h1>
                 <p class="subtitle">Log studio overheads &amp; payouts.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
         <div class="form-group">
-            <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')">🎙️ Speak</button></label>
+            <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
             <input type="number" id="out-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="out-date"></div>
         <div class="form-group">
             <label>Expense Category</label>
             <select id="out-category">
-                <option value="Fabric">🧵 Fabric</option>
-                <option value="Karigar">✂️ Karigar / Stitching</option>
-                <option value="Accessories">🎀 Accessories (Lace, Buttons)</option>
-                <option value="Rent">🏠 Rent</option>
-                <option value="Electricity">⚡ Electricity</option>
-                <option value="Travel">🚕 Travel / Market</option>
-                <option value="Personal Withdrawal">👩 Personal Withdrawal</option>
-                <option value="Other">📝 Other</option>
+                <option value="Fabric">Fabric</option>
+                <option value="Karigar">Karigar / Stitching</option>
+                <option value="Accessories">Accessories (Lace, Buttons)</option>
+                <option value="Rent">Rent</option>
+                <option value="Electricity">Electricity</option>
+                <option value="Travel">Travel / Market</option>
+                <option value="Personal Withdrawal">Personal Withdrawal</option>
+                <option value="Other">Other</option>
             </select>
         </div>
         <div class="form-group">
@@ -566,8 +656,8 @@
         <div class="form-group">
             <label>Payment Mode</label>
             <div class="radio-group">
-                <div class="radio-btn selected" id="btn-out-cash" onclick="setMode('out', 'Cash')">💵 Cash</div>
-                <div class="radio-btn" id="btn-out-online" onclick="setMode('out', 'Online')">📱 Online</div>
+                <div class="radio-btn selected" id="btn-out-cash" onclick="setMode('out', 'Cash')">Cash</div>
+                <div class="radio-btn" id="btn-out-online" onclick="setMode('out', 'Online')">Online</div>
             </div>
             <input type="hidden" id="out-mode" value="Cash">
         </div>
@@ -578,10 +668,12 @@
     <div id="view-orders" class="view">
         <header>
             <div class="header-title-box">
-                <h1>Clients Overview 👥</h1>
+                <h1>Clients Overview</h1>
                 <p class="subtitle">Profiles, Naap Book &amp; Order History.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
         <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order')">+ Create New Order</button>
         <div id="orders-list"></div>
@@ -591,10 +683,12 @@
     <div id="view-new-order" class="view">
         <header>
             <div class="header-title-box">
-                <h1 id="ord-title">New Order ✨</h1>
+                <h1 id="ord-title">New Order</h1>
                 <p class="subtitle">Custom tailoring &amp; instant profit calculator.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
 
         <div class="form-group">
@@ -628,8 +722,8 @@
         <div class="form-group" style="margin-top:-8px;">
             <label>Payment Mode</label>
             <div class="radio-group">
-                <div class="radio-btn selected" id="btn-ord-cash" onclick="setMode('ord', 'Cash')">💵 Cash</div>
-                <div class="radio-btn" id="btn-ord-online" onclick="setMode('ord', 'Online')">📱 Online</div>
+                <div class="radio-btn selected" id="btn-ord-cash" onclick="setMode('ord', 'Cash')">Cash</div>
+                <div class="radio-btn" id="btn-ord-online" onclick="setMode('ord', 'Online')">Online</div>
             </div>
             <input type="hidden" id="ord-mode" value="Cash">
         </div>
@@ -650,7 +744,7 @@
             <div class="calc-row"><span>Total Bill:</span> <span id="calc-price">₹0</span></div>
             <div class="calc-row"><span>Production Cost:</span> <span id="calc-cost" class="text-red">- ₹0</span></div>
             <div class="calc-total text-gold">Net Profit: <span id="calc-profit">₹0</span></div>
-            <div class="calc-row" style="margin-top:8px; font-size:13px;">
+            <div class="calc-row" style="margin-top:12px; font-size:13px; border-top:1px dashed rgba(197,160,89,0.2); padding-top:10px;">
                 <span>Pending Collection:</span> <span id="calc-pending" class="text-warning" style="font-weight:700;">₹0</span>
             </div>
         </div>
@@ -662,24 +756,26 @@
     <div id="view-summary" class="view">
         <header>
             <div class="header-title-box">
-                <h1>Financial Reports 📊</h1>
+                <h1>Financial Reports</h1>
                 <p class="subtitle">Analytics, monthly breakdown &amp; VIP insights.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
 
         <div class="summary-tabs">
-            <div class="summary-tab active" id="tab-monthly" onclick="switchSummaryMode('monthly')">📅 Monthly</div>
-            <div class="summary-tab" id="tab-overall" onclick="switchSummaryMode('overall')">🌐 Overall</div>
+            <div class="summary-tab active" id="tab-monthly" onclick="switchSummaryMode('monthly')">Monthly</div>
+            <div class="summary-tab" id="tab-overall" onclick="switchSummaryMode('overall')">Overall</div>
         </div>
 
-        <div class="form-group" id="month-selector-group" style="background:var(--surface-color); padding:16px; border-radius:var(--border-radius); box-shadow:var(--shadow-sm); border:var(--card-border);">
+        <div class="form-group" id="month-selector-group" style="background:var(--surface-glass); padding:18px; border-radius:var(--border-radius); box-shadow:var(--shadow-sm); border:var(--card-border);">
             <label for="summary-month-select" style="font-weight:700; color:var(--accent-gold); margin-bottom:8px;">Select Reporting Month:</label>
             <select id="summary-month-select" onchange="renderSummary()"></select>
         </div>
 
         <div class="calc-box">
-            <h3 id="selected-summary-title" style="margin-bottom:12px; color:var(--primary); font-size:16px;">Breakdown</h3>
+            <h3 id="selected-summary-title" style="margin-bottom:14px; color:var(--primary); font-size:16px; font-weight:700;">Breakdown</h3>
             <div class="calc-row"><span>Total Inflow:</span> <span id="sum-in" class="text-green">₹0</span></div>
             <div class="calc-row"><span>Studio Expenses:</span> <span id="sum-out-biz" class="text-red">₹0</span></div>
             <div class="calc-row"><span>Personal Withdrawals:</span> <span id="sum-out-pers" class="text-muted">₹0</span></div>
@@ -697,18 +793,18 @@
         </div>
 
         <!-- EXPENSES CATEGORY BREAKDOWN SECTION -->
-        <div class="calc-box" id="expenses-summary-section" style="display:none; background: linear-gradient(135deg, rgba(211,47,47,0.04), rgba(212,175,55,0.08)); border: var(--card-border);">
-            <h3 style="margin-bottom:12px; color:var(--danger); font-size:16px;">🧾 Expense Categories Breakdown</h3>
+        <div class="calc-box" id="expenses-summary-section" style="display:none; background: linear-gradient(135deg, rgba(201,59,43,0.03), rgba(197,160,89,0.06)); border: var(--card-border);">
+            <h3 style="margin-bottom:14px; color:var(--danger); font-size:16px; font-weight:700;">Expense Categories Breakdown</h3>
             <div id="expenses-summary-list"></div>
         </div>
 
-        <div class="calc-box" id="vip-customers-section" style="background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(212,175,55,0.15)); border: var(--card-border);">
-            <h3 style="margin-bottom:12px; color:var(--accent-gold); font-size:16px;">⭐ Top VIP Clients (By Revenue)</h3>
+        <div class="calc-box" id="vip-customers-section" style="background: linear-gradient(135deg, rgba(197,160,89,0.05), rgba(197,160,89,0.15)); border: var(--card-border);">
+            <h3 style="margin-bottom:14px; color:var(--accent-gold); font-size:16px; font-weight:700;">Top VIP Clients (By Revenue)</h3>
             <div id="vip-customers-list"></div>
         </div>
 
         <div class="calc-box" id="karigar-summary-section" style="display:none;">
-            <h3 style="margin-bottom:12px; color:var(--accent-gold); font-size:16px;">✂️ Karigar Payouts Summary</h3>
+            <h3 style="margin-bottom:14px; color:var(--accent-gold); font-size:16px; font-weight:700;">Karigar Payouts Summary</h3>
             <div id="karigar-summary-list"></div>
         </div>
 
@@ -720,8 +816,8 @@
     <div id="collect-modal" class="modal-overlay bottom-sheet-overlay">
         <div class="modal-card bottom-sheet-card">
             <div class="sheet-drag-handle"></div>
-            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 2px;">Collect Payment</h2>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;" id="collect-cust-name">Client: -</p>
+            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 4px; font-weight: 700;">Collect Payment</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;" id="collect-cust-name">Client: -</p>
             
             <div class="form-group">
                 <label>Amount Collected</label>
@@ -731,19 +827,19 @@
             <div class="form-group">
                 <label>Payment Method</label>
                 <div class="radio-group">
-                    <div class="radio-btn selected" id="btn-collect-cash" onclick="setMode('collect', 'Cash')">💵 Cash</div>
-                    <div class="radio-btn" id="btn-collect-online" onclick="setMode('collect', 'Online')">📱 Online</div>
+                    <div class="radio-btn selected" id="btn-collect-cash" onclick="setMode('collect', 'Cash')">Cash</div>
+                    <div class="radio-btn" id="btn-collect-online" onclick="setMode('collect', 'Online')">Online</div>
                 </div>
                 <input type="hidden" id="collect-mode" value="Cash">
             </div>
 
-            <div class="calc-box" style="margin-bottom: 16px; background: rgba(212,175,55,0.05);">
+            <div class="calc-box" style="margin-bottom: 16px; background: rgba(197,160,89,0.06);">
                 <div class="calc-row"><span>Total Pending:</span> <span id="collect-total-pending" class="text-warning" style="font-weight:700;">₹0</span></div>
                 <div class="calc-row"><span>Pending after payment:</span> <span id="collect-remaining-pending" class="text-warning" style="font-weight:700;">₹0</span></div>
             </div>
 
             <button class="btn-save" style="margin-top:0;" onclick="confirmCollection()">Confirm Collection</button>
-            <button class="btn-small btn-delete" style="width:100%; padding:14px; margin-top:8px; border-radius:16px;" onclick="closeModal('collect-modal')">Cancel</button>
+            <button class="btn-small btn-delete" style="width:100%; padding:14px; margin-top:10px; border-radius:16px; justify-content:center;" onclick="closeModal('collect-modal')">Cancel</button>
         </div>
     </div>
 
@@ -751,12 +847,12 @@
     <div id="bill-modal" class="modal-overlay">
         <div class="modal-card">
             <div class="invoice-header">
-                <h2>House of Adheera ✨</h2>
-                <p style="font-size:12px; color:var(--text-muted);">Exclusive Designer Boutique &amp; Studio</p>
-                <p style="font-size:11px; margin-top:4px;" id="inv-date">Date: </p>
+                <h2 style="font-size:20px; font-weight:700; color:var(--primary);">House of Adheera</h2>
+                <p style="font-size:12px; color:var(--text-muted); font-weight:500;">Exclusive Designer Boutique &amp; Studio</p>
+                <p style="font-size:11px; margin-top:6px; color:var(--text-muted);" id="inv-date">Date: </p>
             </div>
             
-            <div style="margin-bottom: 12px; font-size: 13px;">
+            <div style="margin-bottom: 14px; font-size: 13px;">
                 <strong>Client Name:</strong> <span id="inv-customer-name" style="text-transform: capitalize;"></span><br>
                 <strong>Invoice ID:</strong> <span id="inv-id"></span>
             </div>
@@ -771,28 +867,28 @@
                 <tbody id="inv-items-body"></tbody>
             </table>
 
-            <div style="border-top: 1px solid rgba(212,175,55,0.3); padding-top: 10px; margin-top: 10px; font-size: 14px;">
+            <div style="border-top: 1px solid rgba(197,160,89,0.3); padding-top: 12px; margin-top: 12px; font-size: 14px;">
                 <div style="display: flex; justify-content: space-between; font-weight: 700;">
                     <span>Total Bill:</span>
                     <span id="inv-total">₹0</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--success); margin-top: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--success); margin-top: 6px;">
                     <span>Amount Paid:</span>
                     <span id="inv-paid">₹0</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--danger); margin-top: 4px;" id="inv-pending-row">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--danger); margin-top: 6px;" id="inv-pending-row">
                     <span>Balance Pending:</span>
                     <span id="inv-pending">₹0</span>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-muted);">
-                Thank you for choosing House of Adheera! 💕
+            <div style="text-align: center; margin-top: 22px; font-size: 11px; color: var(--text-muted); font-weight: 500;">
+                Thank you for choosing House of Adheera!
             </div>
 
             <div class="action-bar no-print" style="margin-top: 20px; border-top: none;">
-                <button class="btn-small btn-edit" style="flex:1; padding: 12px;" onclick="window.print()">🖨️ Print</button>
-                <button class="btn-small btn-receive" style="flex:1; padding: 12px;" onclick="shareOnWhatsApp()">💬 WhatsApp</button>
+                <button class="btn-small btn-edit" style="flex:1; padding: 12px; justify-content:center;" onclick="window.print()">Print</button>
+                <button class="btn-small btn-receive" style="flex:1; padding: 12px;" onclick="shareOnWhatsApp()">WhatsApp</button>
                 <button class="btn-small btn-delete" style="padding: 12px 16px;" onclick="closeModal('bill-modal')">Close</button>
             </div>
         </div>
@@ -801,8 +897,8 @@
     <!-- MEASUREMENTS MODAL -->
     <div id="measure-modal" class="modal-overlay">
         <div class="modal-card">
-            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 4px;">📐 Naap Book</h2>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;" id="measure-cust-title">Client Measurements</p>
+            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 4px; font-weight: 700;">Naap Book</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;" id="measure-cust-title">Client Measurements</p>
             
             <div id="measurements-inputs-container">
                 <div class="form-group"><label>Chest / Bust (Inches)</label><input type="text" id="m-chest" placeholder="E.g., 36"></div>
@@ -815,7 +911,7 @@
 
             <div class="action-bar" style="border-top:none; margin-top:10px;">
                 <button class="btn-save" style="margin-top:0;" onclick="saveMeasurements()">Save Naap</button>
-                <button class="btn-small btn-delete" style="width:100%; padding:12px; margin-top:8px;" onclick="closeModal('measure-modal')">Cancel</button>
+                <button class="btn-small btn-delete" style="width:100%; padding:14px; margin-top:10px; border-radius:16px; justify-content:center;" onclick="closeModal('measure-modal')">Cancel</button>
             </div>
         </div>
     </div>
@@ -826,9 +922,24 @@
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
-        <div class="nav-item active" id="nav-home" onclick="navTo('view-dashboard', this)"><span class="nav-icon">🏠</span>Home</div>
-        <div class="nav-item" id="nav-orders" onclick="navTo('view-orders', this)"><span class="nav-icon">👥</span>Clients</div>
-        <div class="nav-item" id="nav-summary" onclick="navTo('view-summary', this)"><span class="nav-icon">📊</span>Reports</div>
+        <div class="nav-item active" id="nav-home" onclick="navTo('view-dashboard', this)">
+            <span class="nav-icon">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </span>
+            Home
+        </div>
+        <div class="nav-item" id="nav-orders" onclick="navTo('view-orders', this)">
+            <span class="nav-icon">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </span>
+            Clients
+        </div>
+        <div class="nav-item" id="nav-summary" onclick="navTo('view-summary', this)">
+            <span class="nav-icon">
+                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </span>
+            Reports
+        </div>
     </nav>
 
 </div>
@@ -855,7 +966,6 @@
         const currentTheme = body.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
-        document.getElementById('theme-btn').innerText = newTheme === 'dark' ? '☀️' : '🌙';
         localStorage.setItem('adheera_theme_v20', newTheme);
     }
 
@@ -864,7 +974,6 @@
             const savedTheme = localStorage.getItem('adheera_theme_v20');
             if (savedTheme) {
                 document.body.setAttribute('data-theme', savedTheme);
-                document.getElementById('theme-btn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
             }
 
             const savedTx = localStorage.getItem('adheera_tx_mob_v20');
@@ -1038,7 +1147,7 @@
         div.innerHTML = `
             <input type="text" class="p-name" placeholder="Product Name" value="${name}" style="flex:2;">
             <input type="number" class="p-price" placeholder="₹ Price" value="${price}" style="flex:1;" oninput="calculateOrderProfit()">
-            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">X</button>
+            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
         `;
         container.appendChild(div);
     }
@@ -1050,7 +1159,7 @@
         div.innerHTML = `
             <input type="text" class="k-name" list="karigar-suggestions" placeholder="Karigar Name" value="${name}" style="flex:1;">
             <input type="number" class="k-cost" placeholder="₹ Cost" value="${cost}" style="flex:1;" oninput="calculateOrderProfit()">
-            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">X</button>
+            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
         `;
         container.appendChild(div);
     }
@@ -1326,15 +1435,15 @@
         let pending = o.totalPrice - o.receivedAmount;
         let itemsText = o.items.map(i => `• ${i.name}: ${formatMoney(i.price)}`).join('\n');
         
-        let msg = `*House of Adheera ✨* - Digital Bill\n` +
+        let msg = `*House of Adheera* - Digital Bill\n` +
                   `------------------\n` +
                   `*Client:* ${o.customer}\n` +
                   `*Date:* ${o.date}\n\n` +
                   `*Items:*\n${itemsText}\n\n` +
                   `*Total:* ${formatMoney(o.totalPrice)}\n` +
                   `*Paid:* ${formatMoney(o.receivedAmount)}\n` +
-                  (pending > 0 ? `*Balance Pending:* ${formatMoney(pending)}\n\n` : `*Status:* Paid Fully ✅\n\n`) +
-                  `Thank you for choosing House of Adheera! 💕`;
+                  (pending > 0 ? `*Balance Pending:* ${formatMoney(pending)}\n\n` : `*Status:* Paid Fully\n\n`) +
+                  `Thank you for choosing House of Adheera!`;
         
         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
     }
@@ -1367,13 +1476,13 @@
         if(pendingCollections.length > 0) {
             remContainer.innerHTML = `
                 <div class="reminder-box">
-                    <h3>⚠️ Pending Dues (Scroll Right)</h3>
+                    <h3>Pending Dues (Scroll Right)</h3>
                     <div class="reminder-scroll-container">
                         ${pendingCollections.map(p => `
                             <div class="reminder-item">
                                 <div>
-                                    <strong style="text-transform:capitalize; font-size:14px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${p.customer}</strong>
-                                    <span class="text-warning" style="font-weight:700; font-size:15px; display:block; margin-top:2px;">Pending: ${formatMoney(p.pending)}</span>
+                                    <strong style="text-transform:capitalize; font-size:14px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--primary);">${p.customer}</strong>
+                                    <span class="text-warning" style="font-weight:700; font-size:15px; display:block; margin-top:4px;">Pending: ${formatMoney(p.pending)}</span>
                                 </div>
                                 <button class="btn-small btn-receive" onclick="receivePending('${p.orderId}')">Collect</button>
                             </div>
@@ -1390,8 +1499,8 @@
             [...transactions].reverse().slice(0, 5).map(tx => `
                 <div class="list-item">
                     <div style="flex:1; overflow:hidden;">
-                        <h4 style="font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tx.type === 'in' ? (tx.source || tx.category) : (tx.payee || tx.category)}</h4>
-                        <p style="font-size:11px; color:var(--text-muted);">${tx.date} • ${tx.category}</p>
+                        <h4 style="font-size:14px; font-weight:600; color:var(--primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tx.type === 'in' ? (tx.source || tx.category) : (tx.payee || tx.category)}</h4>
+                        <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">${tx.date} • ${tx.category}</p>
                     </div>
                     <div class="item-amount ${tx.type === 'in' ? 'text-green' : 'text-red'}" style="font-size:14px; font-weight:700;">
                         ${tx.type === 'in' ? '+' : '-'} ${formatMoney(tx.amount)}
@@ -1419,16 +1528,16 @@
             if (mData && (mData.chest || mData.waist || mData.length)) {
                 measBadgeHtml = `
                     <div class="measurement-badge">
-                        <span>📐 Naap:</span>
+                        <span style="font-weight:700; color:var(--accent-gold);">Naap Profile:</span><br>
                         ${mData.chest ? `Chest: ${mData.chest}" ` : ''}
                         ${mData.waist ? `Waist: ${mData.waist}" ` : ''}
                         ${mData.length ? `Len: ${mData.length}" ` : ''}
                         ${mData.shoulder ? `Sh: ${mData.shoulder}" ` : ''}
-                        ${mData.notes ? `<br>📝 Notes: ${mData.notes}` : ''}
+                        ${mData.notes ? `<br>Notes: ${mData.notes}` : ''}
                     </div>
                 `;
             } else {
-                measBadgeHtml = `<div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">⚠️ Measurements not recorded yet.</div>`;
+                measBadgeHtml = `<div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:500;">Measurements not recorded yet.</div>`;
             }
 
             return `
@@ -1436,17 +1545,17 @@
                 <div class="customer-header">
                     <h2>${group.name}</h2>
                     <div style="text-align:right;">
-                        ${group.totalPending > 0 ? `<div class="text-warning" style="font-weight:700; font-size:15px;">Pending: ${formatMoney(group.totalPending)}</div>` : `<div class="text-green" style="font-size:13px; font-weight:600;">Cleared ✓</div>`}
+                        ${group.totalPending > 0 ? `<div class="text-warning" style="font-weight:700; font-size:14px;">Pending: ${formatMoney(group.totalPending)}</div>` : `<div class="text-green" style="font-size:12px; font-weight:700;">Cleared</div>`}
                     </div>
                 </div>
 
                 ${measBadgeHtml}
                 
-                <div style="margin-bottom:10px;">
-                    <button class="btn-small btn-measure" style="width:100%; padding:10px; font-size:13px;" onclick="openMeasurements('${group.name}')">📐 Update Naap (Measurements)</button>
+                <div style="margin-bottom:14px;">
+                    <button class="btn-small btn-measure" onclick="openMeasurements('${group.name}')">Update Naap (Measurements)</button>
                 </div>
 
-                <h4 style="font-size:13px; color:var(--primary); margin:10px 0 6px; font-weight:700;">Order History:</h4>
+                <h4 style="font-size:13px; color:var(--text-muted); margin:14px 0 8px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Order History</h4>
                 
                 ${group.orders.slice().reverse().map(ord => {
                     const pending = ord.totalPrice - ord.receivedAmount;
@@ -1454,18 +1563,18 @@
                     return `
                     <div class="order-sub-item">
                         <div style="display:flex; justify-content:space-between; font-size:12px;">
-                            <span style="color:var(--text-muted);">${ord.date}</span>
-                            <span style="font-weight:700;">Bill: ${formatMoney(ord.totalPrice)}</span>
+                            <span style="color:var(--text-muted); font-weight:500;">${ord.date}</span>
+                            <span style="font-weight:700; color:var(--primary);">Bill: ${formatMoney(ord.totalPrice)}</span>
                         </div>
-                        <div class="products-list-display">👗 Items: ${itemsStr}</div>
+                        <div class="products-list-display">Items: ${itemsStr}</div>
                         
                         <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:8px;">
                             <span style="color:var(--success); font-weight:600;">Paid: ${formatMoney(ord.receivedAmount)}</span>
                             ${pending > 0 ? `<span class="text-warning" style="font-weight:600;">Pending: ${formatMoney(pending)}</span>` : ''}
                         </div>
                         
-                        <div class="action-bar" style="padding-top:8px; margin-top:4px;">
-                            <button class="btn-small btn-print" onclick="printBill('${ord.id}')">🖨️ Bill</button>
+                        <div class="action-bar" style="padding-top:10px; margin-top:6px;">
+                            <button class="btn-small btn-print" onclick="printBill('${ord.id}')">Bill</button>
                             ${pending > 0 ? `<button class="btn-small btn-receive" onclick="receivePending('${ord.id}')">Collect</button>` : ''}
                             <button class="btn-small btn-edit" onclick="editOrder('${ord.id}')">Edit</button>
                             <button class="btn-small btn-delete" onclick="deleteOrder('${ord.id}')">Delete</button>
@@ -1515,14 +1624,14 @@
         let customerRevenue = {};
         let filteredTx = [];
 
-        const categoryIcons = {
-            'Rent': '🏠 Rent',
-            'Electricity': '⚡ Electricity',
-            'Travel': '🚕 Travel / Market',
-            'Accessories': '🎀 Accessories',
-            'Fabric': '🧵 Fabric',
-            'Personal Withdrawal': '👩 Personal Withdrawal',
-            'Other': '📝 Other'
+        const categoryLabels = {
+            'Rent': 'Rent',
+            'Electricity': 'Electricity',
+            'Travel': 'Travel / Market',
+            'Accessories': 'Accessories',
+            'Fabric': 'Fabric',
+            'Personal Withdrawal': 'Personal Withdrawal',
+            'Other': 'Other'
         };
 
         if (currentSummaryMode === 'monthly') {
@@ -1549,7 +1658,7 @@
                                 karigarTotals[canonical] = (karigarTotals[canonical] || 0) + tx.amount;
                             }
                         } else {
-                            let catLabel = categoryIcons[tx.category] || tx.category || '📝 Other';
+                            let catLabel = categoryLabels[tx.category] || tx.category || 'Other';
                             categoryTotals[catLabel] = (categoryTotals[catLabel] || 0) + tx.amount;
                         }
                     }
@@ -1573,7 +1682,7 @@
                             karigarTotals[canonical] = (karigarTotals[canonical] || 0) + tx.amount;
                         }
                     } else {
-                        let catLabel = categoryIcons[tx.category] || tx.category || '📝 Other';
+                        let catLabel = categoryLabels[tx.category] || tx.category || 'Other';
                         categoryTotals[catLabel] = (categoryTotals[catLabel] || 0) + tx.amount;
                     }
                 }
@@ -1594,7 +1703,7 @@
         if (Object.keys(categoryTotals).length > 0) {
             expSection.style.display = 'block';
             document.getElementById('expenses-summary-list').innerHTML = Object.keys(categoryTotals).map(cat => `
-                <div class="calc-row" style="border-bottom: 1px dashed rgba(212,175,55,0.2); padding-bottom: 6px;">
+                <div class="calc-row" style="border-bottom: 1px dashed rgba(197,160,89,0.2); padding-bottom: 8px;">
                     <span style="font-weight:500;">${cat}:</span> 
                     <span style="font-weight:700; color:var(--danger);">${formatMoney(categoryTotals[cat])}</span>
                 </div>
@@ -1606,7 +1715,7 @@
         if (sortedVIP.length > 0) {
             vipSection.style.display = 'block';
             document.getElementById('vip-customers-list').innerHTML = sortedVIP.map(([name, rev], idx) => `
-                <div class="calc-row" style="border-bottom: 1px dashed rgba(212,175,55,0.2); padding-bottom: 4px;">
+                <div class="calc-row" style="border-bottom: 1px dashed rgba(197,160,89,0.2); padding-bottom: 6px;">
                     <span style="font-weight:600; text-transform:capitalize;">#${idx+1} ${name}</span> 
                     <span style="font-weight:700; color:var(--accent-gold);">${formatMoney(rev)}</span>
                 </div>
@@ -1617,7 +1726,7 @@
         if (Object.keys(karigarTotals).length > 0) {
             kSection.style.display = 'block';
             document.getElementById('karigar-summary-list').innerHTML = Object.keys(karigarTotals).map(name => `
-                <div class="calc-row" style="border-bottom: 1px dashed rgba(212,175,55,0.2); padding-bottom: 6px;"><span style="font-weight:500;">${name}:</span> <span style="font-weight:700; color:var(--accent-gold);">${formatMoney(karigarTotals[name])}</span></div>
+                <div class="calc-row" style="border-bottom: 1px dashed rgba(197,160,89,0.2); padding-bottom: 8px;"><span style="font-weight:500;">${name}:</span> <span style="font-weight:700; color:var(--accent-gold);">${formatMoney(karigarTotals[name])}</span></div>
             `).join('');
         } else { kSection.style.display = 'none'; }
 
@@ -1628,17 +1737,17 @@
         }
 
         historyList.innerHTML = [...filteredTx].reverse().map(tx => `
-            <div class="list-item" style="flex-direction:column; align-items:flex-start; gap:4px;">
+            <div class="list-item" style="flex-direction:column; align-items:flex-start; gap:8px;">
                 <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
                     <div style="overflow:hidden;">
-                        <h4 style="font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tx.type === 'in' ? (tx.source || tx.category) : (tx.payee || tx.category)}</h4>
-                        <p style="font-size:11px; color:var(--text-muted);">${tx.date} • ${tx.category}</p>
+                        <h4 style="font-size:14px; font-weight:600; color:var(--primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tx.type === 'in' ? (tx.source || tx.category) : (tx.payee || tx.category)}</h4>
+                        <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">${tx.date} • ${tx.category}</p>
                     </div>
                     <div class="item-amount ${tx.type === 'in' ? 'text-green' : 'text-red'}" style="font-size:14px; font-weight:700;">
                         ${tx.type === 'in' ? '+' : '-'} ${formatMoney(tx.amount)}
                     </div>
                 </div>
-                ${!tx.orderId ? `<div class="action-bar" style="border-top:none; padding-top:4px; justify-content:flex-end;"><button class="btn-small btn-edit" onclick="editTx('${tx.id}')">Edit</button><button class="btn-small btn-delete" onclick="deleteTx('${tx.id}')">Delete</button></div>` : `<div style="font-size:10px; color:var(--text-muted);">* Linked to Order</div>`}
+                ${!tx.orderId ? `<div class="action-bar" style="border-top:none; padding-top:4px; justify-content:flex-end;"><button class="btn-small btn-edit" onclick="editTx('${tx.id}')">Edit</button><button class="btn-small btn-delete" onclick="deleteTx('${tx.id}')">Delete</button></div>` : `<div style="font-size:10px; color:var(--text-muted); font-weight:500;">Linked to Order</div>`}
             </div>
         `).join('');
     }
@@ -1649,10 +1758,10 @@
         resetForms(); editingTxId = id;
         if (tx.type === 'in') {
             document.getElementById('in-amount').value = tx.amount; document.getElementById('in-source').value = tx.source; document.getElementById('in-category').value = tx.category; document.getElementById('in-date').value = tx.date; setMode('in', tx.mode);
-            document.getElementById('in-title').innerText = "Edit Inflow ✏️"; document.getElementById('in-save-btn').innerText = "Update"; forceNavTo('view-paisa-aaya', document.getElementById('nav-home'));
+            document.getElementById('in-title').innerText = "Edit Inflow"; document.getElementById('in-save-btn').innerText = "Update"; forceNavTo('view-paisa-aaya', document.getElementById('nav-home'));
         } else {
             document.getElementById('out-amount').value = tx.amount; document.getElementById('out-payee').value = tx.payee ? tx.payee.split(' (')[0].trim() : ''; document.getElementById('out-category').value = tx.category; document.getElementById('out-date').value = tx.date; setMode('out', tx.mode);
-            document.getElementById('out-title').innerText = "Edit Expense ✏️"; document.getElementById('out-save-btn').innerText = "Update"; forceNavTo('view-paisa-gaya', document.getElementById('nav-home'));
+            document.getElementById('out-title').innerText = "Edit Expense"; document.getElementById('out-save-btn').innerText = "Update"; forceNavTo('view-paisa-gaya', document.getElementById('nav-home'));
         }
     }
 
@@ -1671,7 +1780,7 @@
         const kCont = document.getElementById('karigars-container'); kCont.innerHTML = '';
         o.karigars.forEach(k => addKarigarField(k.name, k.cost));
 
-        document.getElementById('ord-title').innerText = "Edit Order ✏️"; document.getElementById('ord-save-btn').innerText = "Update Order";
+        document.getElementById('ord-title').innerText = "Edit Order"; document.getElementById('ord-save-btn').innerText = "Update Order";
         calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'));
     }
 
