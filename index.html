@@ -313,6 +313,52 @@
         .customer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1.5px solid rgba(212,175,55,0.15); padding-bottom: 10px; gap: 10px; }
         .customer-header h2 { font-size: 18px; font-weight: 700; color: var(--primary); text-transform: capitalize; }
         
+        .customer-stats-summary {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+        .stat-pill {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 5px 10px;
+            border-radius: 10px;
+            color: var(--primary);
+        }
+
+        .search-box-container {
+            position: relative;
+            margin-bottom: 14px;
+        }
+        .search-box-input {
+            width: 100%;
+            padding: 14px 16px 14px 42px;
+            border-radius: 18px;
+            border: 1.5px solid rgba(212, 175, 55, 0.3);
+            background: var(--surface-color);
+            font-size: 14px;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .search-box-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+        }
+        .search-icon-placeholder {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
         .measurement-badge { background: var(--accent-gold-light); color: var(--primary); padding: 10px 14px; border-radius: 14px; font-size: 12px; font-weight: 600; margin-bottom: 12px; border: 1px solid rgba(212,175,55,0.3); line-height: 1.5; }
         .order-sub-item { background: rgba(212,175,55,0.03); border-radius: 14px; padding: 14px; margin-bottom: 10px; border: 1px solid rgba(212,175,55,0.1); }
         .products-list-display { font-size: 13px; color: var(--text-muted); margin: 6px 0 10px; font-weight: 500; }
@@ -583,6 +629,12 @@
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()">🌙</button>
         </header>
+
+        <div class="search-box-container">
+            <span class="search-icon-placeholder">🔍</span>
+            <input type="text" id="global-search-input" class="search-box-input" placeholder="Search customer, order or item..." oninput="renderOrders()">
+        </div>
+
         <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order')">+ Create New Order</button>
         <div id="orders-list"></div>
     </div>
@@ -1402,18 +1454,39 @@
 
     function renderOrders() {
         const list = document.getElementById('orders-list');
+        const searchInput = document.getElementById('global-search-input');
+        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
         if (orders.length === 0) { list.innerHTML = `<div class="empty-state"><p>No client orders added yet.</p></div>`; return; }
 
         let grouped = {};
         orders.forEach(o => {
             let cKey = o.customer.trim().toLowerCase();
-            if(!grouped[cKey]) grouped[cKey] = { name: o.customer, orders: [], totalPending: 0, totalPaid: 0 };
+            if(!grouped[cKey]) grouped[cKey] = { name: o.customer, orders: [], totalPending: 0, totalRevenue: 0 };
             grouped[cKey].orders.push(o);
             grouped[cKey].totalPending += (o.totalPrice - o.receivedAmount);
-            grouped[cKey].totalPaid += o.receivedAmount;
+            grouped[cKey].totalRevenue += o.totalPrice;
         });
 
-        list.innerHTML = Object.values(grouped).map(group => {
+        let groupsArray = Object.values(grouped);
+
+        if (query) {
+            groupsArray = groupsArray.filter(group => {
+                const matchName = group.name.toLowerCase().includes(query);
+                const matchOrder = group.orders.some(o => 
+                    o.id.toLowerCase().includes(query) || 
+                    o.items.some(i => i.name.toLowerCase().includes(query))
+                );
+                return matchName || matchOrder;
+            });
+        }
+
+        if (groupsArray.length === 0) {
+            list.innerHTML = `<div class="empty-state"><p>No clients or orders match "${query}".</p></div>`;
+            return;
+        }
+
+        list.innerHTML = groupsArray.map(group => {
             let mData = measurementsBook[group.name.trim().toLowerCase()];
             let measBadgeHtml = '';
             if (mData && (mData.chest || mData.waist || mData.length)) {
@@ -1438,6 +1511,12 @@
                     <div style="text-align:right;">
                         ${group.totalPending > 0 ? `<div class="text-warning" style="font-weight:700; font-size:15px;">Pending: ${formatMoney(group.totalPending)}</div>` : `<div class="text-green" style="font-size:13px; font-weight:600;">Cleared ✓</div>`}
                     </div>
+                </div>
+
+                <div class="customer-stats-summary">
+                    <span class="stat-pill">📦 ${group.orders.length} order${group.orders.length > 1 ? 's' : ''}</span>
+                    <span class="stat-pill">💰 ${formatMoney(group.totalRevenue)} revenue</span>
+                    ${group.totalPending > 0 ? `<span class="stat-pill text-warning" style="border-color:var(--warning);">⚠️ ${formatMoney(group.totalPending)} pending</span>` : ''}
                 </div>
 
                 ${measBadgeHtml}
