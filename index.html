@@ -70,7 +70,6 @@
             background-image: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.04) 0%, transparent 60%);
         }
 
-        /* Ambient Textile / Depth Mesh */
         body::before {
             content: '';
             position: fixed;
@@ -89,7 +88,6 @@
             padding: 0 16px;
         }
 
-        /* Professional Vector Icon Helper */
         .icon-svg {
             width: 20px;
             height: 20px;
@@ -160,7 +158,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 3D Surface Depth Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
         .card {
             background: var(--surface-glass);
@@ -190,7 +187,6 @@
         .text-gold { color: var(--accent-gold) !important; }
         .text-warning { color: var(--warning) !important; }
 
-        /* Quick Actions Bar */
         .quick-actions { display: flex; gap: 10px; margin-bottom: 24px; }
         .btn-action {
             flex: 1;
@@ -217,7 +213,6 @@
         .btn-out .icon-svg { color: var(--danger); }
         .btn-dress .icon-svg { color: var(--accent-gold); }
 
-        /* Reminder Box Depth */
         .reminder-box {
             background: var(--surface-glass);
             backdrop-filter: blur(20px);
@@ -264,7 +259,6 @@
             border: var(--card-border);
         }
 
-        /* Form & Input Components */
         .form-group { margin-bottom: 20px; }
         label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
         input, select, textarea {
@@ -287,6 +281,25 @@
         input[readonly] { background: rgba(0,0,0,0.03); color: var(--text-muted); }
         [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
+
+        /* Universal Search Input Styling */
+        .search-bar-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .search-bar-container input {
+            padding-left: 46px;
+        }
+        .search-bar-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
 
         .radio-group { display: flex; gap: 10px; }
         .radio-btn {
@@ -410,7 +423,6 @@
         .full-width { width: 100%; }
         .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
 
-        /* Modals & Bottom Sheets */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -473,7 +485,6 @@
         .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(197,160,89,0.2); padding: 10px 6px; text-align: left; }
         .invoice-table th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; }
 
-        /* Floating Glass Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 20px;
@@ -574,9 +585,7 @@
             </button>
         </div>
 
-        <h3 class="section-title">
-            Recent Transactions
-        </h3>
+        <h3 class="section-title">Recent Transactions</h3>
         <div id="recent-transactions-list"></div>
     </div>
 
@@ -675,6 +684,15 @@
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
+
+        <!-- Search Everywhere Bar -->
+        <div class="search-bar-container">
+            <span class="search-bar-icon">
+                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="client-search-input" placeholder="Search customer, order or dress..." oninput="renderOrders()">
+        </div>
+
         <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order')">+ Create New Order</button>
         <div id="orders-list"></div>
     </div>
@@ -792,7 +810,6 @@
             </div>
         </div>
 
-        <!-- EXPENSES CATEGORY BREAKDOWN SECTION -->
         <div class="calc-box" id="expenses-summary-section" style="display:none; background: linear-gradient(135deg, rgba(201,59,43,0.03), rgba(197,160,89,0.06)); border: var(--card-border);">
             <h3 style="margin-bottom:14px; color:var(--danger); font-size:16px; font-weight:700;">Expense Categories Breakdown</h3>
             <div id="expenses-summary-list"></div>
@@ -1513,16 +1530,31 @@
         const list = document.getElementById('orders-list');
         if (orders.length === 0) { list.innerHTML = `<div class="empty-state"><p>No client orders added yet.</p></div>`; return; }
 
+        let searchQuery = document.getElementById('client-search-input') ? document.getElementById('client-search-input').value.toLowerCase().trim() : '';
+
         let grouped = {};
         orders.forEach(o => {
             let cKey = o.customer.trim().toLowerCase();
-            if(!grouped[cKey]) grouped[cKey] = { name: o.customer, orders: [], totalPending: 0, totalPaid: 0 };
-            grouped[cKey].orders.push(o);
-            grouped[cKey].totalPending += (o.totalPrice - o.receivedAmount);
-            grouped[cKey].totalPaid += o.receivedAmount;
+            let matchesSearch = !searchQuery || 
+                o.customer.toLowerCase().includes(searchQuery) || 
+                o.id.toLowerCase().includes(searchQuery) ||
+                o.items.some(item => item.name.toLowerCase().includes(searchQuery));
+
+            if (matchesSearch) {
+                if(!grouped[cKey]) grouped[cKey] = { name: o.customer, orders: [], totalPending: 0, totalPaid: 0 };
+                grouped[cKey].orders.push(o);
+                grouped[cKey].totalPending += (o.totalPrice - o.receivedAmount);
+                grouped[cKey].totalPaid += o.receivedAmount;
+            }
         });
 
-        list.innerHTML = Object.values(grouped).map(group => {
+        const groupValues = Object.values(grouped);
+        if (groupValues.length === 0) {
+            list.innerHTML = `<div class="empty-state"><p>No matching clients or orders found.</p></div>`;
+            return;
+        }
+
+        list.innerHTML = groupValues.map(group => {
             let mData = measurementsBook[group.name.trim().toLowerCase()];
             let measBadgeHtml = '';
             if (mData && (mData.chest || mData.waist || mData.length)) {
@@ -1698,7 +1730,6 @@
         document.getElementById('graph-in-fill').style.width = `${totalFlow > 0 ? (sumIn / totalFlow) * 100 : 50}%`;
         document.getElementById('graph-out-fill').style.width = `${totalFlow > 0 ? (sumOutBiz / totalFlow) * 100 : 50}%`;
         
-        // Render Expenses Category Breakdown Section
         const expSection = document.getElementById('expenses-summary-section');
         if (Object.keys(categoryTotals).length > 0) {
             expSection.style.display = 'block';
@@ -1784,7 +1815,7 @@
         calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'));
     }
 
-    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
+    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
     function deleteOrder(id) { if(confirm("Delete order?")) { orders = orders.filter(o => o.id !== id); transactions = transactions.filter(t => t.orderId !== id); saveData(); refreshAllData(); } }
 </script>
 </body>
