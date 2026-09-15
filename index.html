@@ -19,7 +19,7 @@
         :root {
             --bg-color: #F7F5F0;
             --surface-color: #FFFFFF;
-            --surface-glass: rgba(255, 255, 255, 0.85);
+            --surface-glass: rgba(255, 255, 255, 0.88);
             --primary: #111111;
             --accent-gold: #C5A059;
             --accent-gold-light: #FBF7EC;
@@ -40,7 +40,7 @@
         [data-theme="dark"] {
             --bg-color: #0A0A0C;
             --surface-color: #161618;
-            --surface-glass: rgba(22, 22, 24, 0.85);
+            --surface-glass: rgba(22, 22, 24, 0.88);
             --primary: #F5F5F7;
             --accent-gold: #D4AF37;
             --accent-gold-light: #221E12;
@@ -58,13 +58,8 @@
         }
 
         /* Hide scrollbars globally across browsers for clean app feel */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        html {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        ::-webkit-scrollbar { display: none; }
+        html { -ms-overflow-style: none; scrollbar-width: none; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
@@ -95,6 +90,178 @@
             min-height: 100vh;
             position: relative;
             padding: 0 16px;
+            transition: max-width 0.3s ease;
+        }
+
+        /* ========================================================
+           ABSOLUTE MOBILE PROTECTION & DESKTOP REDESIGN OVERRIDES
+           ================================================-------- */
+        @media (min-width: 1024px) {
+            body {
+                padding-bottom: 0;
+            }
+            .app-container {
+                max-width: 1320px; /* Spacious professional studio command center width */
+                margin: 0 auto;
+                padding: 0 40px 60px 40px;
+            }
+            
+            /* Hide Mobile Bottom Nav on Desktop */
+            .bottom-nav {
+                display: none !important;
+            }
+
+            /* FLOATING VERTICAL NAVIGATION DOCK FOR DESKTOP */
+            .desktop-dock {
+                display: flex !important;
+                position: fixed;
+                right: 28px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 68px;
+                flex-direction: column;
+                align-items: center;
+                padding: 16px 8px;
+                background: var(--surface-glass);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-radius: 28px;
+                box-shadow: var(--shadow-float);
+                border: var(--card-border);
+                gap: 16px;
+                z-index: 1000;
+            }
+
+            .dock-item {
+                position: relative;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 16px;
+                color: var(--text-muted);
+                cursor: pointer;
+                transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                background: transparent;
+                border: none;
+            }
+
+            .dock-item:hover {
+                color: var(--primary);
+                background: rgba(197, 160, 89, 0.08);
+                transform: scale(1.05);
+            }
+
+            .dock-item.active {
+                color: var(--accent-gold);
+                background: rgba(197, 160, 89, 0.15);
+                box-shadow: 0 4px 16px rgba(197, 160, 89, 0.25), var(--inner-glow);
+            }
+
+            .dock-item.active::before {
+                content: '';
+                position: absolute;
+                left: -6px;
+                width: 4px;
+                height: 20px;
+                background: var(--accent-gold);
+                border-radius: 4px;
+            }
+
+            /* Tooltip system for desktop dock */
+            .dock-item .dock-tooltip {
+                position: absolute;
+                right: 64px;
+                background: var(--primary);
+                color: var(--bg-color);
+                padding: 6px 12px;
+                border-radius: 10px;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transform: translateX(8px);
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: var(--shadow-sm);
+            }
+
+            .dock-item:hover .dock-tooltip {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            /* Desktop Header Studio Command Center Layout */
+            header {
+                padding: 40px 0 32px;
+                border-bottom: 1px solid rgba(197, 160, 89, 0.15);
+                margin-bottom: 32px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .header-title-box h1 {
+                font-size: 32px;
+                letter-spacing: -0.8px;
+            }
+
+            .header-title-box p.subtitle {
+                font-size: 13px;
+                letter-spacing: 1px;
+            }
+
+            /* Desktop Dashboard Multi-Column Grid */
+            #view-dashboard .dashboard-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 24px !important;
+                margin-bottom: 32px !important;
+            }
+
+            #view-dashboard .card.full-width {
+                grid-column: span 2 !important;
+            }
+
+            /* Desktop Quick Actions */
+            .quick-actions {
+                max-width: 600px;
+                margin-bottom: 36px;
+            }
+
+            /* Desktop Section Title */
+            .section-title {
+                font-size: 20px;
+                margin: 40px 0 20px;
+            }
+
+            /* Desktop Recent Transactions & Lists 2-column or wide layout */
+            #recent-transactions-list, #orders-list, #history-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .list-item, .customer-card {
+                margin-bottom: 0 !important;
+            }
+
+            /* Desktop Form Views (Money In/Out, New Order, etc.) */
+            #view-paisa-aaya .form-group, 
+            #view-paisa-gaya .form-group, 
+            #view-new-order .form-group {
+                max-width: 720px;
+            }
+            
+            #view-new-order .dashboard-grid,
+            #view-new-order .calc-box {
+                max-width: 720px;
+            }
+        }
+
+        /* Hide desktop dock on mobile/tablet viewports */
+        .desktop-dock {
+            display: none;
         }
 
         .icon-svg {
@@ -575,6 +742,7 @@
         .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(197,160,89,0.2); padding: 10px 6px; text-align: left; }
         .invoice-table th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; }
 
+        /* Original Mobile Bottom Navigation - STRICTLY PRESERVED FOR MOBILE */
         .bottom-nav {
             position: fixed;
             bottom: 20px;
@@ -1098,7 +1266,27 @@
     <datalist id="customer-suggestions"></datalist>
     <datalist id="karigar-suggestions"></datalist>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- FLOATING VERTICAL NAVIGATION DOCK FOR DESKTOP (No Emojis, Professional Vector Icons, Tooltips) -->
+    <nav class="desktop-dock">
+        <button class="dock-item active" id="dock-home" onclick="navTo('view-dashboard', null, this)">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span class="dock-tooltip">Dashboard</span>
+        </button>
+        <button class="dock-item" id="dock-orders" onclick="navTo('view-orders', null, this)">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="dock-tooltip">Clients & Orders</span>
+        </button>
+        <button class="dock-item" id="dock-summary" onclick="navTo('view-summary', null, this)">
+            <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span class="dock-tooltip">Financial Reports</span>
+        </button>
+        <button class="dock-item" id="dock-calculator" onclick="navTo('view-calculator', null, this)">
+            <svg class="icon-svg" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="8" y1="10" x2="10" y2="10"></line><line x1="14" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="10" y2="14"></line><line x1="14" y1="14" x2="16" y2="14"></line><line x1="8" y1="18" x2="10" y2="18"></line><line x1="14" y1="18" x2="16" y2="18"></line></svg>
+            <span class="dock-tooltip">Studio Utilities</span>
+        </button>
+    </nav>
+
+    <!-- ORIGINAL MOBILE BOTTOM NAVIGATION (PRESERVED INTACT FOR MOBILE VIEWPORTS) -->
     <nav class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="navTo('view-dashboard', this)">
             <span class="nav-icon">
@@ -1343,25 +1531,57 @@
         calculateOrderProfit();
     }
 
-    function navTo(viewId, navElement = null) {
+    function navTo(viewId, navElement = null, dockElement = null) {
         resetForms();
-        forceNavTo(viewId, navElement);
+        forceNavTo(viewId, navElement, dockElement);
     }
 
-    function forceNavTo(viewId, navElement = null) {
+    function forceNavTo(viewId, navElement = null, dockElement = null) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
 
+        // Sync Mobile Navigation active states
         if (navElement) {
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
             navElement.classList.add('active');
         } else {
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(['view-dashboard','view-paisa-aaya','view-paisa-gaya'].includes(viewId)) document.getElementById('nav-home').classList.add('active');
-            else if(['view-orders','view-new-order'].includes(viewId)) document.getElementById('nav-orders').classList.add('active');
-            else if(viewId === 'view-summary') document.getElementById('nav-summary').classList.add('active');
-            else if(viewId === 'view-calculator') document.getElementById('nav-calculator').classList.add('active');
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+            if(['view-dashboard','view-paisa-aaya','view-paisa-gaya'].includes(viewId)) {
+                const el = document.getElementById('nav-home');
+                if(el) el.classList.add('active');
+            } else if(['view-orders','view-new-order'].includes(viewId)) {
+                const el = document.getElementById('nav-orders');
+                if(el) el.classList.add('active');
+            } else if(viewId === 'view-summary') {
+                const el = document.getElementById('nav-summary');
+                if(el) el.classList.add('active');
+            } else if(viewId === 'view-calculator') {
+                const el = document.getElementById('nav-calculator');
+                if(el) el.classList.add('active');
+            }
         }
+
+        // Sync Desktop Dock active states
+        if (dockElement) {
+            document.querySelectorAll('.desktop-dock .dock-item').forEach(d => d.classList.remove('active'));
+            dockElement.classList.add('active');
+        } else {
+            document.querySelectorAll('.desktop-dock .dock-item').forEach(d => d.classList.remove('active'));
+            if(['view-dashboard','view-paisa-aaya','view-paisa-gaya'].includes(viewId)) {
+                const el = document.getElementById('dock-home');
+                if(el) el.classList.add('active');
+            } else if(['view-orders','view-new-order'].includes(viewId)) {
+                const el = document.getElementById('dock-orders');
+                if(el) el.classList.add('active');
+            } else if(viewId === 'view-summary') {
+                const el = document.getElementById('dock-summary');
+                if(el) el.classList.add('active');
+            } else if(viewId === 'view-calculator') {
+                const el = document.getElementById('dock-calculator');
+                if(el) el.classList.add('active');
+            }
+        }
+
         refreshAllData();
         window.scrollTo(0, 0);
     }
@@ -1477,7 +1697,7 @@
 
         const tx = { id: editingTxId || Date.now().toString(), type: 'in', amount, date, source: sourceName, category, mode };
         if (editingTxId) transactions[transactions.findIndex(t => t.id === editingTxId)] = tx; else transactions.push(tx);
-        saveData(); navTo('view-dashboard', document.getElementById('nav-home'));
+        saveData(); navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
     }
 
     function savePaisaGaya() {
@@ -1494,7 +1714,7 @@
 
         const tx = { id: editingTxId || Date.now().toString(), type: 'out', amount, date: document.getElementById('out-date').value, category: document.getElementById('out-category').value, payee: payeeName, mode: document.getElementById('out-mode').value };
         if (editingTxId) transactions[transactions.findIndex(t => t.id === editingTxId)] = tx; else transactions.push(tx);
-        saveData(); navTo('view-dashboard', document.getElementById('nav-home'));
+        saveData(); navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
     }
 
     function saveOrder() {
@@ -1559,7 +1779,7 @@
         });
         if (other > 0) transactions.push({ id: baseId + 'D', orderId, type: 'out', amount: other, date: orderDate, payee: `Accessories for ${customer}`, category: 'Accessories', mode });
 
-        saveData(); alert("Order saved successfully!"); navTo('view-orders', document.getElementById('nav-orders'));
+        saveData(); alert("Order saved successfully!"); navTo('view-orders', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
     }
 
     function receivePending(orderId) {
@@ -2032,10 +2252,10 @@
         resetForms(); editingTxId = id;
         if (tx.type === 'in') {
             document.getElementById('in-amount').value = tx.amount; document.getElementById('in-source').value = tx.source; document.getElementById('in-category').value = tx.category; document.getElementById('in-date').value = tx.date; setMode('in', tx.mode);
-            document.getElementById('in-title').innerText = "Edit Inflow"; document.getElementById('in-save-btn').innerText = "Update"; forceNavTo('view-paisa-aaya', document.getElementById('nav-home'));
+            document.getElementById('in-title').innerText = "Edit Inflow"; document.getElementById('in-save-btn').innerText = "Update"; forceNavTo('view-paisa-aaya', document.getElementById('nav-home'), document.getElementById('dock-home'));
         } else {
             document.getElementById('out-amount').value = tx.amount; document.getElementById('out-payee').value = tx.payee ? tx.payee.split(' (')[0].trim() : ''; document.getElementById('out-category').value = tx.category; document.getElementById('out-date').value = tx.date; setMode('out', tx.mode);
-            document.getElementById('out-title').innerText = "Edit Expense"; document.getElementById('out-save-btn').innerText = "Update"; forceNavTo('view-paisa-gaya', document.getElementById('nav-home'));
+            document.getElementById('out-title').innerText = "Edit Expense"; document.getElementById('out-save-btn').innerText = "Update"; forceNavTo('view-paisa-gaya', document.getElementById('nav-home'), document.getElementById('dock-home'));
         }
     }
 
@@ -2048,14 +2268,15 @@
         const pCont = document.getElementById('products-container'); pCont.innerHTML = '';
         o.items.forEach(i => addProductField(i.name, i.price));
 
-        if (o.receivedAmount < o.totalPrice) { setPayType('Part'); document.getElementById('ord-received').value = o.receivedAmount; } else setPayType('Full');
+        (o.receivedAmount < o.totalPrice) ? setPayType('Part') : setPayType('Full');
+        if (o.receivedAmount < o.totalPrice) document.getElementById('ord-received').value = o.receivedAmount;
         document.getElementById('ord-fabric').value = o.fabric; document.getElementById('ord-other').value = o.other;
 
         const kCont = document.getElementById('karigars-container'); kCont.innerHTML = '';
         o.karigars.forEach(k => addKarigarField(k.name, k.cost));
 
         document.getElementById('ord-title').innerText = "Edit Order"; document.getElementById('ord-save-btn').innerText = "Update Order";
-        calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'));
+        calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
     }
 
     function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
