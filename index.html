@@ -282,6 +282,7 @@
         [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
+        /* Universal Search Input Styling */
         .search-bar-container {
             position: relative;
             margin-bottom: 16px;
@@ -600,7 +601,7 @@
             </button>
         </header>
         <div class="form-group">
-            <label class="flex-between">Amount Received (₹) <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
+            <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
             <input type="number" id="in-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="in-date"></div>
@@ -640,7 +641,7 @@
             </button>
         </header>
         <div class="form-group">
-            <label class="flex-between">Amount Spent (₹) <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
+            <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
             <input type="number" id="out-amount" class="amount-input" placeholder="₹0" inputmode="numeric">
         </div>
         <div class="form-group"><label>Date</label><input type="date" id="out-date"></div>
@@ -684,6 +685,7 @@
             </button>
         </header>
 
+        <!-- Search Everywhere Bar -->
         <div class="search-bar-container">
             <span class="search-bar-icon">
                 <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -719,12 +721,12 @@
         </div>
         
         <div class="form-group">
-            <label>Total Order Price (₹)</label>
+            <label>Total Order Price</label>
             <input type="number" id="ord-total-price" placeholder="₹0" class="amount-input" readonly>
         </div>
 
         <div class="form-group">
-            <label>Payment Received (₹)</label>
+            <label>Payment Received</label>
             <div class="radio-group" style="margin-bottom: 8px;">
                 <div class="radio-btn selected" id="btn-pay-full" onclick="setPayType('Full')">Full Payment</div>
                 <div class="radio-btn" id="btn-pay-part" onclick="setPayType('Part')">Advance (Part)</div>
@@ -746,7 +748,7 @@
 
         <h3 class="section-title">Cost of Production</h3>
         
-        <div class="form-group"><label>Total Fabric Cost (₹)</label><input type="number" id="ord-fabric" placeholder="₹0" oninput="calculateOrderProfit()"></div>
+        <div class="form-group"><label>Total Fabric Cost</label><input type="number" id="ord-fabric" placeholder="₹0" oninput="calculateOrderProfit()"></div>
         
         <div class="form-group">
             <label>Karigar Payouts</label>
@@ -754,7 +756,7 @@
             <button class="btn-outline" onclick="addKarigarField()">+ Add Another Karigar</button>
         </div>
 
-        <div class="form-group"><label>Accessories &amp; Other Expenses (₹)</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit()"></div>
+        <div class="form-group"><label>Accessories &amp; Other Expenses</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit()"></div>
 
         <div class="calc-box">
             <div class="calc-row"><span>Total Bill:</span> <span id="calc-price">₹0</span></div>
@@ -835,7 +837,7 @@
             <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;" id="collect-cust-name">Client: -</p>
             
             <div class="form-group">
-                <label>Amount Collected (₹)</label>
+                <label>Amount Collected</label>
                 <input type="number" id="collect-amount" class="amount-input" placeholder="₹0" inputmode="numeric" oninput="updateCollectCalculations()">
             </div>
 
@@ -1813,7 +1815,7 @@
         calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'));
     }
 
-    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
+    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
     function deleteOrder(id) { if(confirm("Delete order?")) { orders = orders.filter(o => o.id !== id); transactions = transactions.filter(t => t.orderId !== id); saveData(); refreshAllData(); } }
 </script>
 </body>
