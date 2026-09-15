@@ -101,7 +101,7 @@
                 padding-bottom: 0;
             }
             .app-container {
-                max-width: 1320px; /* Spacious professional studio command center width */
+                max-width: 1320px;
                 margin: 0 auto;
                 padding: 0 40px 60px 40px;
             }
@@ -192,7 +192,6 @@
                 transform: translateX(0);
             }
 
-            /* Desktop Header Studio Command Center Layout */
             header {
                 padding: 40px 0 32px;
                 border-bottom: 1px solid rgba(197, 160, 89, 0.15);
@@ -212,7 +211,6 @@
                 letter-spacing: 1px;
             }
 
-            /* Desktop Dashboard Multi-Column Grid */
             #view-dashboard .dashboard-grid {
                 display: grid;
                 grid-template-columns: repeat(4, 1fr) !important;
@@ -224,19 +222,16 @@
                 grid-column: span 2 !important;
             }
 
-            /* Desktop Quick Actions */
             .quick-actions {
                 max-width: 600px;
                 margin-bottom: 36px;
             }
 
-            /* Desktop Section Title */
             .section-title {
                 font-size: 20px;
                 margin: 40px 0 20px;
             }
 
-            /* Desktop Recent Transactions & Lists 2-column or wide layout */
             #recent-transactions-list, #orders-list, #history-list {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
@@ -246,7 +241,6 @@
                 margin-bottom: 0 !important;
             }
 
-            /* Desktop Form Views (Money In/Out, New Order, etc.) */
             #view-paisa-aaya .form-group, 
             #view-paisa-gaya .form-group, 
             #view-new-order .form-group {
@@ -259,7 +253,6 @@
             }
         }
 
-        /* Hide desktop dock on mobile/tablet viewports */
         .desktop-dock {
             display: none;
         }
@@ -456,7 +449,6 @@
         [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
-        /* Calculator Specific Styles - Perfectly Mobile Optimized */
         .calc-pad {
             background: var(--surface-glass);
             backdrop-filter: blur(20px);
@@ -508,7 +500,6 @@
         .calc-btn.action { color: var(--danger); font-weight: 700; }
         .calc-btn.equals { background: linear-gradient(135deg, var(--accent-gold), #A47E36); color: #111111; font-weight: 700; }
 
-        /* Tailoring Unit Converter Container - Clean Layout without number spinner arrows */
         .converter-box {
             background: var(--surface-glass);
             backdrop-filter: blur(20px);
@@ -530,7 +521,6 @@
             font-size: 15px;
             border-radius: 14px;
         }
-        /* Completely remove number input spinner arrows (scroller) across all browsers */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -1098,13 +1088,11 @@
             </button>
         </header>
 
-        <!-- Sub-Tabs for Calculator View -->
         <div class="summary-tabs">
             <div class="summary-tab active" id="calc-tab-calc" onclick="switchCalcSubMode('calc')">Calculator</div>
             <div class="summary-tab" id="calc-tab-conv" onclick="switchCalcSubMode('conv')">Unit Converter</div>
         </div>
 
-        <!-- Calculator Container -->
         <div id="calc-mode-container" class="calc-pad">
             <div class="calc-screen" id="calc-display">0</div>
             <div class="calc-buttons-grid">
@@ -1135,7 +1123,6 @@
             </div>
         </div>
 
-        <!-- Tailoring Unit Converter Container (Clean layout without arrows) -->
         <div id="conv-mode-container" class="converter-box" style="display: none;">
             <div style="font-size: 13px; font-weight: 700; color: var(--accent-gold); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px;">
                 Tailoring Measurement Converter
@@ -1266,7 +1253,7 @@
     <datalist id="customer-suggestions"></datalist>
     <datalist id="karigar-suggestions"></datalist>
 
-    <!-- FLOATING VERTICAL NAVIGATION DOCK FOR DESKTOP (No Emojis, Professional Vector Icons, Tooltips) -->
+    <!-- FLOATING VERTICAL NAVIGATION DOCK FOR DESKTOP -->
     <nav class="desktop-dock">
         <button class="dock-item active" id="dock-home" onclick="navTo('view-dashboard', null, this)">
             <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -1286,7 +1273,7 @@
         </button>
     </nav>
 
-    <!-- ORIGINAL MOBILE BOTTOM NAVIGATION (PRESERVED INTACT FOR MOBILE VIEWPORTS) -->
+    <!-- ORIGINAL MOBILE BOTTOM NAVIGATION (PRESERVED INTACT) -->
     <nav class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="navTo('view-dashboard', this)">
             <span class="nav-icon">
@@ -1342,6 +1329,7 @@
         localStorage.setItem('adheera_theme_v20', newTheme);
     }
 
+    // OPTIMIZED INSTANT UI LOADING (No initial loading delay)
     async function loadData() {
         try {
             const savedTheme = localStorage.getItem('adheera_theme_v20');
@@ -1356,21 +1344,32 @@
             if (savedOrd) orders = JSON.parse(savedOrd);
             if (savedMeas) measurementsBook = JSON.parse(savedMeas);
 
+            // Render instantly using local cache
+            refreshAllData();
+
+            // Background non-blocking sync with Google Apps Script
             if (SCRIPT_URL) {
-                const response = await fetch(SCRIPT_URL);
-                const cloudData = await response.json();
-                if (cloudData && cloudData.transactions) {
-                    transactions = cloudData.transactions || [];
-                    orders = cloudData.orders || [];
-                    measurementsBook = cloudData.measurementsBook || {};
-                    
-                    localStorage.setItem('adheera_tx_mob_v20', JSON.stringify(transactions));
-                    localStorage.setItem('adheera_orders_mob_v20', JSON.stringify(orders));
-                    localStorage.setItem('adheera_measure_v20', JSON.stringify(measurementsBook));
-                }
+                fetch(SCRIPT_URL)
+                    .then(response => response.json())
+                    .then(cloudData => {
+                        if (cloudData && cloudData.transactions) {
+                            transactions = cloudData.transactions || [];
+                            orders = cloudData.orders || [];
+                            measurementsBook = cloudData.measurementsBook || {};
+                            
+                            localStorage.setItem('adheera_tx_mob_v20', JSON.stringify(transactions));
+                            localStorage.setItem('adheera_orders_mob_v20', JSON.stringify(orders));
+                            localStorage.setItem('adheera_measure_v20', JSON.stringify(measurementsBook));
+                            
+                            refreshAllData();
+                        }
+                    })
+                    .catch(err => console.log("Cloud sync background error", err));
             }
-        } catch(e) { console.error("Cloud sync load error, using local cache", e); }
-        refreshAllData();
+        } catch(e) { 
+            console.error("Load error", e); 
+            refreshAllData();
+        }
     }
 
     function saveData() {
@@ -1390,7 +1389,6 @@
         }
     }
 
-    // Calculator Sub-Mode Switcher
     function switchCalcSubMode(mode) {
         document.getElementById('calc-tab-calc').classList.toggle('active', mode === 'calc');
         document.getElementById('calc-tab-conv').classList.toggle('active', mode === 'conv');
@@ -1398,7 +1396,6 @@
         document.getElementById('conv-mode-container').style.display = mode === 'conv' ? 'block' : 'none';
     }
 
-    // Quick Calculator Logic
     function calcAppend(val) {
         if (calcExpression === "0" && val !== '.') {
             calcExpression = val;
@@ -1437,7 +1434,6 @@
         document.getElementById('calc-display').innerText = calcExpression;
     }
 
-    // Tailoring Unit Converter Logic
     function convertUnits() {
         const val = parseFloat(document.getElementById('conv-input').value);
         const fromUnit = document.getElementById('conv-from').value;
@@ -1540,7 +1536,6 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
 
-        // Sync Mobile Navigation active states
         if (navElement) {
             document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
             navElement.classList.add('active');
@@ -1561,7 +1556,6 @@
             }
         }
 
-        // Sync Desktop Dock active states
         if (dockElement) {
             document.querySelectorAll('.desktop-dock .dock-item').forEach(d => d.classList.remove('active'));
             dockElement.classList.add('active');
