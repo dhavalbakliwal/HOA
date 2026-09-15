@@ -376,6 +376,33 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* Bottom Sheet Styling */
+        .bottom-sheet-overlay {
+            align-items: flex-end;
+            padding: 0;
+        }
+        .bottom-sheet-card {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            max-width: 480px;
+            margin: 0 auto;
+            transform: translateY(100%);
+            animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+        }
+        @keyframes slideUpSheet {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sheet-drag-handle {
+            width: 40px;
+            height: 5px;
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 3px;
+            margin: -10px auto 16px;
+        }
+
         .invoice-header { text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 14px; margin-bottom: 14px; }
         .invoice-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
         .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(212,175,55,0.2); padding: 8px 4px; text-align: left; }
@@ -669,7 +696,7 @@
             </div>
         </div>
 
-        <!-- NEW: EXPENSES CATEGORY BREAKDOWN SECTION -->
+        <!-- EXPENSES CATEGORY BREAKDOWN SECTION -->
         <div class="calc-box" id="expenses-summary-section" style="display:none; background: linear-gradient(135deg, rgba(211,47,47,0.04), rgba(212,175,55,0.08)); border: var(--card-border);">
             <h3 style="margin-bottom:12px; color:var(--danger); font-size:16px;">🧾 Expense Categories Breakdown</h3>
             <div id="expenses-summary-list"></div>
@@ -687,6 +714,37 @@
 
         <h3 class="section-title">Transactions Log</h3>
         <div id="history-list"></div>
+    </div>
+
+    <!-- COLLECT PAYMENT BOTTOM SHEET MODAL -->
+    <div id="collect-modal" class="modal-overlay bottom-sheet-overlay">
+        <div class="modal-card bottom-sheet-card">
+            <div class="sheet-drag-handle"></div>
+            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 2px;">Collect Payment</h2>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;" id="collect-cust-name">Client: -</p>
+            
+            <div class="form-group">
+                <label>Amount Collected</label>
+                <input type="number" id="collect-amount" class="amount-input" placeholder="₹0" inputmode="numeric" oninput="updateCollectCalculations()">
+            </div>
+
+            <div class="form-group">
+                <label>Payment Method</label>
+                <div class="radio-group">
+                    <div class="radio-btn selected" id="btn-collect-cash" onclick="setMode('collect', 'Cash')">💵 Cash</div>
+                    <div class="radio-btn" id="btn-collect-online" onclick="setMode('collect', 'Online')">📱 Online</div>
+                </div>
+                <input type="hidden" id="collect-mode" value="Cash">
+            </div>
+
+            <div class="calc-box" style="margin-bottom: 16px; background: rgba(212,175,55,0.05);">
+                <div class="calc-row"><span>Total Pending:</span> <span id="collect-total-pending" class="text-warning" style="font-weight:700;">₹0</span></div>
+                <div class="calc-row"><span>Pending after payment:</span> <span id="collect-remaining-pending" class="text-warning" style="font-weight:700;">₹0</span></div>
+            </div>
+
+            <button class="btn-save" style="margin-top:0;" onclick="confirmCollection()">Confirm Collection</button>
+            <button class="btn-small btn-delete" style="width:100%; padding:14px; margin-top:8px; border-radius:16px;" onclick="closeModal('collect-modal')">Cancel</button>
+        </div>
     </div>
 
     <!-- DIGITAL INVOICE MODAL -->
@@ -786,6 +844,7 @@
     let editingOrderId = null;
     let activeBillOrder = null;
     let activeMeasureCustomer = null;
+    let activeCollectOrderId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
         loadData();
@@ -1136,22 +1195,62 @@
 
     function receivePending(orderId) {
         const order = orders.find(o => o.id === orderId);
-        if(!order) return;
+        if (!order) return;
         const pending = order.totalPrice - order.receivedAmount;
         if (pending <= 0) return alert("Payment is already fully cleared.");
 
-        const amountInput = prompt(`How much amount collected? (Total pending: ₹${pending})`, pending);
-        if (amountInput === null) return;
-        const amount = parseFloat(amountInput);
-        if (isNaN(amount) || amount <= 0 || amount > pending) return alert("Invalid amount entered.");
+        activeCollectOrderId = orderId;
+        document.getElementById('collect-cust-name').innerText = `Client: ${order.customer}`;
+        document.getElementById('collect-amount').value = pending;
+        document.getElementById('collect-total-pending').innerText = formatMoney(pending);
+        setMode('collect', 'Cash');
+
+        updateCollectCalculations();
+
+        const modal = document.getElementById('collect-modal');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.style.opacity = '1', 10);
+    }
+
+    function updateCollectCalculations() {
+        const order = orders.find(o => o.id === activeCollectOrderId);
+        if (!order) return;
+
+        const totalPending = order.totalPrice - order.receivedAmount;
+        const enteredAmount = parseFloat(document.getElementById('collect-amount').value) || 0;
+        const remaining = Math.max(0, totalPending - enteredAmount);
+
+        document.getElementById('collect-remaining-pending').innerText = formatMoney(remaining);
+    }
+
+    function confirmCollection() {
+        const order = orders.find(o => o.id === activeCollectOrderId);
+        if (!order) return;
+
+        const pending = order.totalPrice - order.receivedAmount;
+        const amount = parseFloat(document.getElementById('collect-amount').value);
+        const mode = document.getElementById('collect-mode').value;
+
+        if (isNaN(amount) || amount <= 0 || amount > pending) {
+            return alert("Please enter a valid amount up to the total pending balance.");
+        }
 
         order.receivedAmount += amount;
         transactions.push({
-            id: Date.now().toString(), orderId, type: 'in', amount, date: new Date().toISOString().split('T')[0],
-            source: `${order.customer} (Pending Collection)`, category: 'Pending Cleared', mode: 'Cash'
+            id: Date.now().toString(),
+            orderId: activeCollectOrderId,
+            type: 'in',
+            amount,
+            date: new Date().toISOString().split('T')[0],
+            source: `${order.customer} (Pending Collection)`,
+            category: 'Pending Cleared',
+            mode
         });
 
-        saveData(); refreshAllData(); alert(`Successfully received ₹${amount}!`);
+        saveData();
+        closeModal('collect-modal');
+        refreshAllData();
+        alert(`Successfully recorded payment of ₹${amount}!`);
     }
 
     function openMeasurements(customerName) {
