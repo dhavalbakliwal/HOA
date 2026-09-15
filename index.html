@@ -282,7 +282,53 @@
         [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
-        /* Universal Search Input Styling */
+        /* Calculator Specific Styles */
+        .calc-pad {
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow), var(--inner-glow);
+            border: var(--card-border);
+        }
+        .calc-screen {
+            width: 100%;
+            background: var(--surface-color);
+            border: var(--card-border);
+            border-radius: 18px;
+            padding: 16px;
+            text-align: right;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            box-shadow: var(--inner-glow);
+            overflow-x: auto;
+            word-break: break-all;
+        }
+        .calc-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calc-btn {
+            background: var(--surface-color);
+            border: var(--card-border);
+            border-radius: 16px;
+            padding: 18px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.15s ease;
+        }
+        .calc-btn:active { transform: scale(0.92); background: rgba(197,160,89,0.1); }
+        .calc-btn.operator { color: var(--accent-gold); font-weight: 700; background: rgba(197,160,89,0.08); }
+        .calc-btn.action { color: var(--danger); font-weight: 700; }
+        .calc-btn.equals { background: linear-gradient(135deg, var(--accent-gold), #A47E36); color: #111111; font-weight: 700; grid-column: span 2; }
+
         .search-bar-container {
             position: relative;
             margin-bottom: 16px;
@@ -514,7 +560,7 @@
             gap: 4px; 
             cursor: pointer; 
             transition: color 0.25s ease; 
-            padding: 4px 16px;
+            padding: 4px 12px;
             border-radius: 16px;
         }
         .nav-item.active { color: var(--accent-gold); }
@@ -685,7 +731,6 @@
             </button>
         </header>
 
-        <!-- Search Everywhere Bar -->
         <div class="search-bar-container">
             <span class="search-bar-icon">
                 <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -829,6 +874,49 @@
         <div id="history-list"></div>
     </div>
 
+    <!-- 7. QUICK CALCULATOR -->
+    <div id="view-calculator" class="view">
+        <header>
+            <div class="header-title-box">
+                <h1>Quick Calculator</h1>
+                <p class="subtitle">Handy studio calculator for fast math.</p>
+            </div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
+        </header>
+
+        <div class="calc-pad">
+            <div class="calc-screen" id="calc-display">0</div>
+            <div class="calc-buttons-grid">
+                <button class="calc-btn action" onclick="calcClear()">C</button>
+                <button class="calc-btn action" onclick="calcBackSpace()">⌫</button>
+                <button class="calc-btn operator" onclick="calcAppend('%')">%</button>
+                <button class="calc-btn operator" onclick="calcAppend('/')">÷</button>
+                
+                <button class="calc-btn" onclick="calcAppend('7')">7</button>
+                <button class="calc-btn" onclick="calcAppend('8')">8</button>
+                <button class="calc-btn" onclick="calcAppend('9')">9</button>
+                <button class="calc-btn operator" onclick="calcAppend('*')">×</button>
+                
+                <button class="calc-btn" onclick="calcAppend('4')">4</button>
+                <button class="calc-btn" onclick="calcAppend('5')">5</button>
+                <button class="calc-btn" onclick="calcAppend('6')">6</button>
+                <button class="calc-btn operator" onclick="calcAppend('-')">-</button>
+                
+                <button class="calc-btn" onclick="calcAppend('1')">1</button>
+                <button class="calc-btn" onclick="calcAppend('2')">2</button>
+                <button class="calc-btn" onclick="calcAppend('3')">3</button>
+                <button class="calc-btn operator" onclick="calcAppend('+')">+</button>
+                
+                <button class="calc-btn" onclick="calcAppend('00')">00</button>
+                <button class="calc-btn" onclick="calcAppend('0')">0</button>
+                <button class="calc-btn" onclick="calcAppend('.')">.</button>
+                <button class="calc-btn equals" onclick="calcEvaluate()">=</button>
+            </div>
+        </div>
+    </div>
+
     <!-- COLLECT PAYMENT BOTTOM SHEET MODAL -->
     <div id="collect-modal" class="modal-overlay bottom-sheet-overlay">
         <div class="modal-card bottom-sheet-card">
@@ -957,6 +1045,12 @@
             </span>
             Reports
         </div>
+        <div class="nav-item" id="nav-calculator" onclick="navTo('view-calculator', this)">
+            <span class="nav-icon">
+                <svg class="icon-svg" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="8" y1="10" x2="10" y2="10"></line><line x1="14" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="10" y2="14"></line><line x1="14" y1="14" x2="16" y2="14"></line><line x1="8" y1="18" x2="10" y2="18"></line><line x1="14" y1="18" x2="16" y2="18"></line></svg>
+            </span>
+            Calc
+        </div>
     </nav>
 
 </div>
@@ -973,6 +1067,7 @@
     let activeBillOrder = null;
     let activeMeasureCustomer = null;
     let activeCollectOrderId = null;
+    let calcExpression = "0";
 
     document.addEventListener("DOMContentLoaded", () => {
         loadData();
@@ -1032,6 +1127,46 @@
                 body: JSON.stringify(payload)
             }).catch(err => console.log("Cloud sync background error", err));
         }
+    }
+
+    // Quick Calculator Logic
+    function calcAppend(val) {
+        if (calcExpression === "0" && val !== '.') {
+            calcExpression = val;
+        } else {
+            calcExpression += val;
+        }
+        updateCalcDisplay();
+    }
+
+    function calcClear() {
+        calcExpression = "0";
+        updateCalcDisplay();
+    }
+
+    function calcBackSpace() {
+        if (calcExpression.length > 1) {
+            calcExpression = calcExpression.slice(0, -1);
+        } else {
+            calcExpression = "0";
+        }
+        updateCalcDisplay();
+    }
+
+    function calcEvaluate() {
+        try {
+            // Safe evaluation of mathematical expression string
+            let sanitized = calcExpression.replace(/×/g, '*').replace(/÷/g, '/');
+            let result = Function('"use strict";return (' + sanitized + ')')();
+            calcExpression = String(result);
+        } catch (e) {
+            calcExpression = "Error";
+        }
+        updateCalcDisplay();
+    }
+
+    function updateCalcDisplay() {
+        document.getElementById('calc-display').innerText = calcExpression;
     }
 
     function startVoiceInput(amountInputId, nameInputId) {
@@ -1118,6 +1253,7 @@
             if(['view-dashboard','view-paisa-aaya','view-paisa-gaya'].includes(viewId)) document.getElementById('nav-home').classList.add('active');
             else if(['view-orders','view-new-order'].includes(viewId)) document.getElementById('nav-orders').classList.add('active');
             else if(viewId === 'view-summary') document.getElementById('nav-summary').classList.add('active');
+            else if(viewId === 'view-calculator') document.getElementById('nav-calculator').classList.add('active');
         }
         refreshAllData();
         window.scrollTo(0, 0);
@@ -1815,7 +1951,7 @@
         calculateOrderProfit(); forceNavTo('view-new-order', document.getElementById('nav-orders'));
     }
 
-    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
+    function deleteTx(id) { if(confirm("Delete transaction?")) { transactions = transactions.filter(t => t.id !== id); saveData(); refreshAllData(); } }
     function deleteOrder(id) { if(confirm("Delete order?")) { orders = orders.filter(o => o.id !== id); transactions = transactions.filter(t => t.orderId !== id); saveData(); refreshAllData(); } }
 </script>
 </body>
