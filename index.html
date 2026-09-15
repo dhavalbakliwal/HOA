@@ -282,13 +282,14 @@
         [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
-        /* Calculator Specific Styles */
+        /* Calculator Specific Styles - Perfectly Mobile Optimized */
         .calc-pad {
             background: var(--surface-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
             box-shadow: var(--shadow), var(--inner-glow);
             border: var(--card-border);
         }
@@ -296,7 +297,7 @@
             width: 100%;
             background: var(--surface-color);
             border: var(--card-border);
-            border-radius: 18px;
+            border-radius: 16px;
             padding: 16px;
             text-align: right;
             font-size: 32px;
@@ -306,7 +307,13 @@
             box-shadow: var(--inner-glow);
             overflow-x: auto;
             word-break: break-all;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            scrollbar-width: none;
         }
+        .calc-screen::-webkit-scrollbar { display: none; }
         .calc-buttons-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -315,7 +322,7 @@
         .calc-btn {
             background: var(--surface-color);
             border: var(--card-border);
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 18px 0;
             font-size: 18px;
             font-weight: 600;
@@ -327,7 +334,39 @@
         .calc-btn:active { transform: scale(0.92); background: rgba(197,160,89,0.1); }
         .calc-btn.operator { color: var(--accent-gold); font-weight: 700; background: rgba(197,160,89,0.08); }
         .calc-btn.action { color: var(--danger); font-weight: 700; }
-        .calc-btn.equals { background: linear-gradient(135deg, var(--accent-gold), #A47E36); color: #111111; font-weight: 700; grid-column: span 2; }
+        .calc-btn.equals { background: linear-gradient(135deg, var(--accent-gold), #A47E36); color: #111111; font-weight: 700; }
+
+        /* Tailoring Unit Converter Container - Clean Layout without number spinner arrows */
+        .converter-box {
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow), var(--inner-glow);
+            border: var(--card-border);
+            margin-bottom: 20px;
+        }
+        .converter-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .converter-row input, .converter-row select {
+            padding: 14px 16px;
+            font-size: 15px;
+            border-radius: 14px;
+        }
+        /* Completely remove number input spinner arrows (scroller) across all browsers */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
 
         .search-bar-container {
             position: relative;
@@ -874,19 +913,26 @@
         <div id="history-list"></div>
     </div>
 
-    <!-- 7. QUICK CALCULATOR -->
+    <!-- 7. QUICK CALCULATOR & CONVERTER -->
     <div id="view-calculator" class="view">
         <header>
             <div class="header-title-box">
-                <h1>Quick Calculator</h1>
-                <p class="subtitle">Handy studio calculator for fast math.</p>
+                <h1>Studio Utilities</h1>
+                <p class="subtitle">Calculator &amp; Tailoring Converter.</p>
             </div>
             <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
 
-        <div class="calc-pad">
+        <!-- Sub-Tabs for Calculator View -->
+        <div class="summary-tabs">
+            <div class="summary-tab active" id="calc-tab-calc" onclick="switchCalcSubMode('calc')">Calculator</div>
+            <div class="summary-tab" id="calc-tab-conv" onclick="switchCalcSubMode('conv')">Unit Converter</div>
+        </div>
+
+        <!-- Calculator Container -->
+        <div id="calc-mode-container" class="calc-pad">
             <div class="calc-screen" id="calc-display">0</div>
             <div class="calc-buttons-grid">
                 <button class="calc-btn action" onclick="calcClear()">C</button>
@@ -913,6 +959,28 @@
                 <button class="calc-btn" onclick="calcAppend('0')">0</button>
                 <button class="calc-btn" onclick="calcAppend('.')">.</button>
                 <button class="calc-btn equals" onclick="calcEvaluate()">=</button>
+            </div>
+        </div>
+
+        <!-- Tailoring Unit Converter Container (Clean layout without arrows) -->
+        <div id="conv-mode-container" class="converter-box" style="display: none;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--accent-gold); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px;">
+                Tailoring Measurement Converter
+            </div>
+            <div class="converter-row">
+                <input type="number" id="conv-input" placeholder="Enter value" oninput="convertUnits()" style="flex: 1;" inputmode="numeric">
+                <select id="conv-from" onchange="convertUnits()" style="flex: 1;">
+                    <option value="inch">Inches (in)</option>
+                    <option value="cm">Centimeters (cm)</option>
+                    <option value="feet">Feet (ft)</option>
+                    <option value="meter">Meters (m)</option>
+                </select>
+            </div>
+            <div style="background: var(--surface-color); border: var(--card-border); padding: 18px; border-radius: 16px; margin-top: 14px; box-shadow: var(--inner-glow);">
+                <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 6px;">Converted Outputs</div>
+                <div style="font-size: 15px; font-weight: 600; color: var(--primary); line-height: 1.6;" id="conv-result">
+                    Enter any value above to convert.
+                </div>
             </div>
         </div>
     </div>
@@ -1129,6 +1197,14 @@
         }
     }
 
+    // Calculator Sub-Mode Switcher
+    function switchCalcSubMode(mode) {
+        document.getElementById('calc-tab-calc').classList.toggle('active', mode === 'calc');
+        document.getElementById('calc-tab-conv').classList.toggle('active', mode === 'conv');
+        document.getElementById('calc-mode-container').style.display = mode === 'calc' ? 'block' : 'none';
+        document.getElementById('conv-mode-container').style.display = mode === 'conv' ? 'block' : 'none';
+    }
+
     // Quick Calculator Logic
     function calcAppend(val) {
         if (calcExpression === "0" && val !== '.') {
@@ -1155,7 +1231,6 @@
 
     function calcEvaluate() {
         try {
-            // Safe evaluation of mathematical expression string
             let sanitized = calcExpression.replace(/×/g, '*').replace(/÷/g, '/');
             let result = Function('"use strict";return (' + sanitized + ')')();
             calcExpression = String(result);
@@ -1167,6 +1242,33 @@
 
     function updateCalcDisplay() {
         document.getElementById('calc-display').innerText = calcExpression;
+    }
+
+    // Tailoring Unit Converter Logic
+    function convertUnits() {
+        const val = parseFloat(document.getElementById('conv-input').value);
+        const fromUnit = document.getElementById('conv-from').value;
+        const resEl = document.getElementById('conv-result');
+
+        if (isNaN(val)) {
+            resEl.innerText = "Enter any value above to convert.";
+            return;
+        }
+
+        let inches = 0;
+        if (fromUnit === 'inch') inches = val;
+        else if (fromUnit === 'cm') inches = val / 2.54;
+        else if (fromUnit === 'feet') inches = val * 12;
+        else if (fromUnit === 'meter') inches = val * 39.3701;
+
+        let cm = inches * 2.54;
+        let feet = inches / 12;
+        let meters = inches / 39.3701;
+
+        resEl.innerHTML = `• Inches: <b>${inches.toFixed(2)} in</b><br>` +
+                          `• Centimeters: <b>${cm.toFixed(2)} cm</b><br>` +
+                          `• Feet: <b>${feet.toFixed(2)} ft</b><br>` +
+                          `• Meters: <b>${meters.toFixed(2)} m</b>`;
     }
 
     function startVoiceInput(amountInputId, nameInputId) {
