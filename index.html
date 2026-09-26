@@ -16,11 +16,12 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* 1. MINIMAL STUDIO LIGHT THEME */
         :root {
-            --bg-color: #F7F5F0;
+            --bg-color: #F8F9FA;
             --surface-color: #FFFFFF;
-            --surface-glass: rgba(255, 255, 255, 0.88);
-            --primary: #111111;
+            --surface-glass: rgba(255, 255, 255, 0.9);
+            --primary: #1A1A1A;
             --accent-gold: #C5A059;
             --accent-gold-light: #FBF7EC;
             --accent-purple: #5B4B8A;
@@ -29,32 +30,153 @@
             --success: #00712D;
             --danger: #C93B2B;
             --warning: #B25E00;
-            --shadow: 0 20px 40px -15px rgba(197, 160, 89, 0.12), 0 10px 20px -10px rgba(0, 0, 0, 0.04);
+            --shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
             --shadow-sm: 0 4px 16px -4px rgba(0, 0, 0, 0.04);
-            --shadow-float: 0 24px 48px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(197, 160, 89, 0.15);
-            --border-radius: 24px;
-            --card-border: 1px solid rgba(197, 160, 89, 0.18);
-            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+            --shadow-float: 0 24px 48px -12px rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+            --card-border: 1px solid rgba(0, 0, 0, 0.08);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 1);
         }
 
+        /* 2. MIDNIGHT CYBER DARK THEME */
         [data-theme="dark"] {
-            --bg-color: #0A0A0C;
-            --surface-color: #161618;
-            --surface-glass: rgba(22, 22, 24, 0.88);
-            --primary: #F5F5F7;
-            --accent-gold: #D4AF37;
-            --accent-gold-light: #221E12;
-            --accent-purple: #9D84ED;
-            --text-main: #F5F5F7;
-            --text-muted: #98989D;
-            --success: #30D158;
-            --danger: #FF453A;
-            --warning: #FF9F0A;
-            --shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(212, 175, 55, 0.15);
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.25);
-            --card-border: 1px solid rgba(212, 175, 55, 0.15);
-            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+            --bg-color: #07090E;
+            --surface-color: #121722;
+            --surface-glass: rgba(18, 23, 34, 0.88);
+            --primary: #F0F4F8;
+            --accent-gold: #00E5FF;
+            --accent-gold-light: rgba(0, 229, 255, 0.1);
+            --accent-purple: #7000FF;
+            --text-main: #F0F4F8;
+            --text-muted: #8A99AD;
+            --success: #00E676;
+            --danger: #FF1744;
+            --warning: #FFAB00;
+            --shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 229, 255, 0.05);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 229, 255, 0.2);
+            --border-radius: 20px;
+            --card-border: 1px solid rgba(0, 229, 255, 0.2);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* 3. GEN-Z NEON GLITCH THEME */
+        [data-theme="funky"] {
+            --bg-color: #120024;
+            --surface-color: #230444;
+            --surface-glass: rgba(35, 4, 68, 0.85);
+            --primary: #39FF14;
+            --accent-gold: #FF007F;
+            --accent-gold-light: rgba(255, 0, 127, 0.15);
+            --accent-purple: #00FFFF;
+            --text-main: #FFFFFF;
+            --text-muted: #D0A9FF;
+            --success: #39FF14;
+            --danger: #FF0055;
+            --warning: #FFFF00;
+            --shadow: 0 20px 50px rgba(255, 0, 127, 0.3), 0 0 30px rgba(57, 255, 20, 0.15);
+            --shadow-sm: 0 4px 20px rgba(255, 0, 127, 0.25);
+            --shadow-float: 0 30px 60px rgba(255, 0, 127, 0.5), 0 0 0 2px rgba(57, 255, 20, 0.4);
+            --border-radius: 24px;
+            --card-border: 2px solid rgba(0, 255, 255, 0.4);
+            --inner-glow: inset 0 0 15px rgba(255, 0, 127, 0.2);
+        }
+
+        /* 4. BLUSHING SILK PASTEL THEME */
+        [data-theme="pastel"] {
+            --bg-color: #FFF5F7;
+            --surface-color: #FFFFFF;
+            --surface-glass: rgba(255, 255, 255, 0.92);
+            --primary: #5A424C;
+            --accent-gold: #E07A93;
+            --accent-gold-light: #FCE4EC;
+            --accent-purple: #9B72CF;
+            --text-main: #4A353E;
+            --text-muted: #9E828D;
+            --success: #6A9B73;
+            --danger: #D66853;
+            --warning: #E9C46A;
+            --shadow: 0 16px 36px rgba(224, 122, 147, 0.15);
+            --shadow-sm: 0 4px 14px rgba(224, 122, 147, 0.1);
+            --shadow-float: 0 20px 40px rgba(224, 122, 147, 0.25), 0 0 0 1px rgba(224, 122, 147, 0.2);
+            --border-radius: 28px;
+            --card-border: 1.5px solid rgba(224, 122, 147, 0.3);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 1);
+        }
+
+        /* 5. ROYAL HERITAGE TRADITIONAL THEME */
+        [data-theme="traditional"] {
+            --bg-color: #FAF4E6;
+            --surface-color: #FFFDF9;
+            --surface-glass: rgba(255, 253, 249, 0.95);
+            --primary: #3B0907;
+            --accent-gold: #C28D0C;
+            --accent-gold-light: #F7EFCF;
+            --accent-purple: #702F12;
+            --text-main: #330705;
+            --text-muted: #825E56;
+            --success: #235C33;
+            --danger: #8F2613;
+            --warning: #B36B00;
+            --shadow: 0 18px 36px rgba(194, 141, 12, 0.18);
+            --shadow-sm: 0 4px 16px rgba(59, 9, 7, 0.08);
+            --shadow-float: 0 24px 48px rgba(59, 9, 7, 0.25), 0 0 0 1.5px rgba(194, 141, 12, 0.4);
+            --border-radius: 16px;
+            --card-border: 2px solid rgba(194, 141, 12, 0.4);
+            --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+        }
+
+        /* 6. RETRO POP COMIC (CARTOONISH VIBE WITH UNIQUE BOUNCY ANIMATIONS) */
+        [data-theme="cartoon"] {
+            --bg-color: #FFDE00;
+            --surface-color: #FFFFFF;
+            --surface-glass: #FFFFFF;
+            --primary: #000000;
+            --accent-gold: #FF0055;
+            --accent-gold-light: #FFEBF0;
+            --accent-purple: #0044FF;
+            --text-main: #000000;
+            --text-muted: #222222;
+            --success: #00CC44;
+            --danger: #FF0000;
+            --warning: #FF6600;
+            --shadow: 5px 5px 0px #000000;
+            --shadow-sm: 3px 3px 0px #000000;
+            --shadow-float: 7px 7px 0px #000000;
+            --border-radius: 20px;
+            --card-border: 3px solid #000000;
+            --inner-glow: none;
+        }
+
+        /* Unique Cartoon Bouncy / Wiggle Keyframe Animation */
+        [data-theme="cartoon"] .card, 
+        [data-theme="cartoon"] .btn-action, 
+        [data-theme="cartoon"] .reminder-box, 
+        [data-theme="cartoon"] .calc-pad, 
+        [data-theme="cartoon"] .customer-card {
+            box-shadow: 5px 5px 0px #000000 !important;
+            border: 3px solid #000000 !important;
+            animation: cartoonBounce 4s ease-in-out infinite;
+        }
+        [data-theme="cartoon"] .card:nth-child(2) { animation-delay: 0.5s; }
+        [data-theme="cartoon"] .card:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes cartoonBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(0.4deg); }
+        }
+
+        [data-theme="funky"] body {
+            background-image: radial-gradient(circle at 15% 15%, rgba(255, 0, 127, 0.2) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.15) 0%, transparent 45%);
+        }
+
+        [data-theme="pastel"] body {
+            background-image: radial-gradient(circle at 50% 0%, rgba(224, 122, 147, 0.18) 0%, transparent 60%);
+        }
+
+        [data-theme="traditional"] body {
+            background-image: radial-gradient(circle at 50% 0%, rgba(194, 141, 12, 0.12) 0%, transparent 60%);
         }
 
         ::-webkit-scrollbar { display: none; }
@@ -70,17 +192,6 @@
             position: relative;
             overflow-x: hidden;
             transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
-            background-image: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.04) 0%, transparent 60%);
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; height: 100vh;
-            background: radial-gradient(circle at 85% 10%, rgba(197,175,55,0.06) 0%, transparent 40%),
-                        radial-gradient(circle at 10% 90%, rgba(91,75,138,0.04) 0%, transparent 40%);
-            z-index: -1;
-            pointer-events: none;
         }
 
         .app-container {
@@ -248,10 +359,33 @@
             border: var(--card-border); width: 44px; height: 44px; border-radius: 16px; display: flex;
             align-items: center; justify-content: center; color: var(--primary); cursor: pointer;
             box-shadow: var(--shadow-sm); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
-            flex-shrink: 0;
+            flex-shrink: 0; user-select: none;
         }
         .theme-toggle-btn:active { transform: scale(0.92); }
         .theme-toggle-btn .icon-svg { width: 22px !important; height: 22px !important; }
+
+        /* THEME SELECTOR MODAL (HOLD POPUP) */
+        .theme-picker-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .theme-option-card {
+            background: var(--surface-color);
+            border: var(--card-border);
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .theme-option-card:active { transform: scale(0.95); }
+        .theme-option-card span { display: block; font-size: 11px; font-weight: 400; color: var(--text-muted); margin-top: 4px; }
 
         .view { display: none; padding: 0 0 20px; opacity: 0; transform: translateY(12px); }
         .view.active { display: block; animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -291,7 +425,7 @@
 
         .reminder-box {
             background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(197, 160, 89, 0.3); border-radius: var(--border-radius); padding: 18px;
+            border: var(--card-border); border-radius: var(--border-radius); padding: 18px;
             margin-bottom: 20px; box-shadow: var(--shadow), var(--inner-glow);
         }
         .reminder-box h3 { 
@@ -308,15 +442,14 @@
         label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; }
         
         input, select, textarea {
-            width: 100%; padding: 16px 18px; border: 1.5px solid rgba(197, 160, 89, 0.2);
-            border-radius: 18px; font-size: 15px; font-weight: 500; background: var(--surface-color);
+            width: 100%; padding: 16px 18px; border: var(--card-border);
+            border-radius: 16px; font-size: 15px; font-weight: 500; background: var(--surface-color);
             outline: none; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); color: var(--primary); box-shadow: var(--inner-glow);
         }
         input:focus, select:focus, textarea:focus { 
-            border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15), var(--inner-glow); 
+            border-color: var(--accent-gold); box-shadow: 0 0 0 4px var(--accent-gold-light), var(--inner-glow); 
         }
 
-        /* Autofill Color Fix */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus, 
@@ -327,7 +460,6 @@
         }
 
         input[readonly] { background: rgba(0,0,0,0.03); color: var(--text-muted); }
-        [data-theme="dark"] input[readonly] { background: rgba(255,255,255,0.03); }
         .amount-input { font-size: 24px; font-weight: 700; color: var(--accent-gold); letter-spacing: -0.5px; }
 
         .calc-pad {
@@ -344,10 +476,10 @@
             background: var(--surface-color); border: var(--card-border); border-radius: 14px; padding: 18px 0; font-size: 18px;
             font-weight: 600; color: var(--primary); cursor: pointer; box-shadow: var(--shadow-sm); transition: all 0.15s ease;
         }
-        .calc-btn:active { transform: scale(0.92); background: rgba(197,160,89,0.1); }
-        .calc-btn.operator { color: var(--accent-gold); font-weight: 700; background: rgba(197,160,89,0.08); }
+        .calc-btn:active { transform: scale(0.92); background: var(--accent-gold-light); }
+        .calc-btn.operator { color: var(--accent-gold); font-weight: 700; background: var(--accent-gold-light); }
         .calc-btn.action { color: var(--danger); font-weight: 700; }
-        .calc-btn.equals { background: linear-gradient(135deg, var(--accent-gold), #A47E36); color: #111111; font-weight: 700; }
+        .calc-btn.equals { background: var(--accent-gold); color: var(--surface-color); font-weight: 700; }
 
         .converter-box {
             background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -364,15 +496,15 @@
 
         .radio-group { display: flex; gap: 10px; }
         .radio-btn {
-            flex: 1; padding: 14px 10px; text-align: center; border: 1.5px solid rgba(197, 160, 89, 0.2); border-radius: 16px;
+            flex: 1; padding: 14px 10px; text-align: center; border: var(--card-border); border-radius: 16px;
             cursor: pointer; font-size: 13px; font-weight: 600; background: var(--surface-color); color: var(--primary);
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: var(--shadow-sm);
         }
         .radio-btn.selected { background: var(--primary); color: var(--bg-color); border-color: var(--primary); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
 
         .btn-save {
-            width: 100%; padding: 18px; border-radius: 18px; border: none; background: linear-gradient(135deg, var(--accent-gold), #A47E36);
-            color: #111111; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: 0 12px 30px rgba(197,160,89,0.3);
+            width: 100%; padding: 18px; border-radius: 18px; border: none; background: var(--accent-gold);
+            color: var(--surface-color); font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: var(--shadow);
             transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s ease; letter-spacing: 0.3px;
         }
         .btn-save:active { transform: scale(0.96); }
@@ -382,7 +514,7 @@
             backdrop-filter: blur(12px); color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px;
             margin-bottom: 14px; transition: all 0.2s ease; text-align: center; display: block; text-decoration: none;
         }
-        .btn-outline:active { background: rgba(197,160,89,0.08); }
+        .btn-outline:active { background: var(--accent-gold-light); }
 
         .section-title { font-size: 16px; font-weight: 700; margin: 28px 0 14px; color: var(--primary); letter-spacing: -0.3px; display: flex; align-items: center; justify-content: space-between; }
         
@@ -396,36 +528,35 @@
             background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: var(--border-radius); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow), var(--inner-glow); border: var(--card-border);
         }
-        .customer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1.5px solid rgba(197,160,89,0.15); padding-bottom: 12px; gap: 10px; }
+        .customer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 12px; gap: 10px; }
         .customer-header h2 { font-size: 18px; font-weight: 700; color: var(--primary); text-transform: capitalize; letter-spacing: -0.4px; }
         
-        .measurement-badge { background: var(--accent-gold-light); color: var(--primary); padding: 12px 16px; border-radius: 16px; font-size: 12px; font-weight: 500; margin-bottom: 14px; border: 1px solid rgba(197,160,89,0.25); line-height: 1.6; }
+        .measurement-badge { background: var(--accent-gold-light); color: var(--primary); padding: 12px 16px; border-radius: 16px; font-size: 12px; font-weight: 500; margin-bottom: 14px; border: var(--card-border); line-height: 1.6; }
         .order-sub-item { background: var(--surface-color); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: var(--card-border); box-shadow: var(--shadow-sm); }
         .products-list-display { font-size: 13px; color: var(--text-muted); margin: 6px 0 10px; font-weight: 500; }
 
-        .action-bar { width: 100%; display: flex; gap: 8px; margin-top: 14px; border-top: 1px solid rgba(197,160,89,0.15); padding-top: 12px; flex-wrap: wrap; }
+        .action-bar { width: 100%; display: flex; gap: 8px; margin-top: 14px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 12px; flex-wrap: wrap; }
         .btn-small { padding: 9px 14px; border-radius: 12px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: transform 0.15s, opacity 0.2s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-small:active { transform: scale(0.92); }
         .btn-edit { background: rgba(0,123,255,0.12); color: #2C82FF; }
         .btn-delete { background: rgba(201,59,43,0.12); color: var(--danger); }
         .btn-receive { background: rgba(0,137,123,0.12); color: var(--success); flex: 1; text-align: center; justify-content: center; }
         .btn-print { background: rgba(91,75,138,0.12); color: var(--accent-purple); }
-        .btn-measure { background: var(--accent-gold-light); color: var(--primary); border: 1px solid var(--accent-gold); width: 100%; justify-content: center; }
+        .btn-measure { background: var(--accent-gold-light); color: var(--primary); border: var(--card-border); width: 100%; justify-content: center; }
 
         .calc-box { background: var(--surface-glass); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-sm), var(--inner-glow); border: var(--card-border); }
         .calc-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; font-weight: 500; color: var(--text-muted); }
         .calc-row span:last-child { color: var(--primary); font-weight: 600; }
-        .calc-total { font-size: 18px; font-weight: 700; border-top: 1px solid rgba(197,160,89,0.2); padding-top: 12px; margin-top: 12px; color: var(--primary); display: flex; justify-content: space-between; }
+        .calc-total { font-size: 18px; font-weight: 700; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 12px; margin-top: 12px; color: var(--primary); display: flex; justify-content: space-between; }
 
-        .summary-tabs { display: flex; background: rgba(197,160,89,0.08); border-radius: 16px; padding: 5px; margin-bottom: 18px; border: 1px solid rgba(197,160,89,0.18); }
+        .summary-tabs { display: flex; background: var(--surface-color); border-radius: 16px; padding: 5px; margin-bottom: 18px; border: var(--card-border); }
         .summary-tab { flex: 1; text-align: center; padding: 11px; font-size: 13px; font-weight: 700; border-radius: 12px; cursor: pointer; color: var(--text-muted); transition: all 0.25s ease; }
-        .summary-tab.active { background: var(--surface-color); color: var(--primary); box-shadow: var(--shadow-sm); }
+        .summary-tab.active { background: var(--primary); color: var(--bg-color); box-shadow: var(--shadow-sm); }
 
         .graph-container { margin-top: 16px; background: var(--surface-color); padding: 14px; border-radius: 16px; border: var(--card-border); }
         .graph-bar-wrapper { margin-bottom: 6px; }
         .graph-bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); }
         .graph-bar-track { background: rgba(0,0,0,0.06); height: 12px; border-radius: 6px; overflow: hidden; display: flex; box-shadow: inset 0 1px 3px rgba(0,0,0,0.08); }
-        [data-theme="dark"] .graph-bar-track { background: rgba(255,255,255,0.06); }
         .graph-bar-fill { height: 100%; border-radius: 6px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
@@ -449,11 +580,11 @@
             max-width: 420px; margin: 0 auto; transform: translateY(100%); animation: slideUpSheet 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; position: relative;
         }
         @keyframes slideUpSheet { to { opacity: 1; transform: translateY(0); } }
-        .sheet-drag-handle { width: 44px; height: 5px; background: rgba(197, 160, 89, 0.4); border-radius: 3px; margin: -6px auto 18px; }
+        .sheet-drag-handle { width: 44px; height: 5px; background: rgba(0,0,0,0.2); border-radius: 3px; margin: -6px auto 18px; }
 
         .invoice-header { text-align: center; border-bottom: 2px dashed var(--accent-gold); padding-bottom: 16px; margin-bottom: 16px; }
         .invoice-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
-        .invoice-table th, .invoice-table td { border-bottom: 1px solid rgba(197,160,89,0.2); padding: 10px 6px; text-align: left; }
+        .invoice-table th, .invoice-table td { border-bottom: var(--card-border); padding: 10px 6px; text-align: left; }
         .invoice-table th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; }
 
         /* Original Mobile Bottom Navigation */
@@ -531,7 +662,7 @@
                 <h1>Rani Jain</h1>
                 <p class="subtitle">House of Adheera Studio</p>
             </div>
-            <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" id="theme-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -585,7 +716,7 @@
                 <h1 id="in-title">Record Inflow</h1>
                 <p class="subtitle">Log client payments &amp; deposits.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -626,7 +757,7 @@
                 <h1 id="out-title">Record Expense</h1>
                 <p class="subtitle">Log studio overheads &amp; payouts.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -671,7 +802,7 @@
                 <h1>Clients Overview</h1>
                 <p class="subtitle">Profiles, Naap Book &amp; Order History.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -697,7 +828,7 @@
                 <h1 id="ord-title">New Order</h1>
                 <p class="subtitle">Custom tailoring &amp; instant profit calculator.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -771,7 +902,7 @@
                 <h1>Financial Reports</h1>
                 <p class="subtitle">Analytics, monthly breakdown &amp; VIP insights.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -830,7 +961,7 @@
                 <h1>Studio Utilities</h1>
                 <p class="subtitle">Calculator &amp; Tailoring Converter.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <button class="theme-toggle-btn" aria-label="Theme Toggle">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </button>
         </header>
@@ -889,6 +1020,25 @@
                     Enter any value above to convert.
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- THEME SELECTION POPUP MODAL (TRIGGERED ON LONG PRESS) -->
+    <div id="theme-picker-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 style="font-size: 18px; color: var(--primary); margin-bottom: 4px; font-weight: 700;">Select Theme Style</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Choose your unique studio character</p>
+            
+            <div class="theme-picker-grid">
+                <div class="theme-option-card" onclick="selectTheme('light')">☀️ Minimal<br><span>Clean Studio</span></div>
+                <div class="theme-option-card" onclick="selectTheme('dark')">🌙 Midnight<br><span>Cyber Dark</span></div>
+                <div class="theme-option-card" onclick="selectTheme('funky')">⚡ Gen-Z<br><span>Neon Glitch</span></div>
+                <div class="theme-option-card" onclick="selectTheme('pastel')">🌸 Blushing<br><span>Soft Pastel</span></div>
+                <div class="theme-option-card" onclick="selectTheme('traditional')">🪵 Heritage<br><span>Royal Indian</span></div>
+                <div class="theme-option-card" onclick="selectTheme('cartoon')">🎨 Retro Pop<br><span>Comic Bouncy</span></div>
+            </div>
+
+            <button class="btn-small btn-delete" style="width:100%; padding:14px; margin-top:16px; border-radius:16px; justify-content:center;" onclick="closeModal('theme-picker-modal')">Close</button>
         </div>
     </div>
 
@@ -1070,8 +1220,12 @@
     let currentOrdersView = 'view-orders';
     let currentHomeView = 'view-dashboard';
 
+    let pressTimer = null;
+    let isLongPress = false;
+
     document.addEventListener("DOMContentLoaded", () => {
         loadData();
+        setupThemeToggleGestures();
     });
 
     // --- PIN LOCK LOGIC ---
@@ -1130,12 +1284,64 @@
         }
     }
 
-    function toggleTheme() {
+    // --- THEME SINGLE TAP (CYCLE) & LONG PRESS (POPUP SELECTOR) GESTURES ---
+    function setupThemeToggleGestures() {
+        const toggleButtons = document.querySelectorAll('.theme-toggle-btn');
+        
+        toggleButtons.forEach(btn => {
+            // Touch / Mouse Down start timer
+            btn.addEventListener('touchstart', (e) => { startPress(e); }, {passive: true});
+            btn.addEventListener('mousedown', (e) => { startPress(e); });
+
+            // Touch / Mouse Up clear timer
+            btn.addEventListener('touchend', (e) => { endPress(e); });
+            btn.addEventListener('mouseup', (e) => { endPress(e); });
+            btn.addEventListener('mouseleave', () => { cancelPress(); });
+        });
+    }
+
+    function startPress(e) {
+        isLongPress = false;
+        pressTimer = setTimeout(() => {
+            isLongPress = true;
+            openThemePickerModal();
+        }, 600); // 600ms hold triggers popup
+    }
+
+    function endPress(e) {
+        clearTimeout(pressTimer);
+        if (!isLongPress) {
+            // Single tap: Cycle to next theme
+            cycleNextTheme();
+        }
+    }
+
+    function cancelPress() {
+        clearTimeout(pressTimer);
+    }
+
+    function cycleNextTheme() {
         const body = document.body;
         const currentTheme = body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        let themes = ['light', 'dark', 'funky', 'pastel', 'traditional', 'cartoon'];
+        let currentIndex = themes.indexOf(currentTheme);
+        let nextIndex = (currentIndex + 1) % themes.length;
+        let newTheme = themes[nextIndex];
+
         body.setAttribute('data-theme', newTheme);
         localStorage.setItem('adheera_theme_v20', newTheme);
+    }
+
+    function selectTheme(themeName) {
+        document.body.setAttribute('data-theme', themeName);
+        localStorage.setItem('adheera_theme_v20', themeName);
+        closeModal('theme-picker-modal');
+    }
+
+    function openThemePickerModal() {
+        const modal = document.getElementById('theme-picker-modal');
+        modal.style.display = 'flex';
+        setTimeout(() => modal.style.opacity = '1', 10);
     }
 
     async function loadData() {
