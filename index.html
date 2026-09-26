@@ -999,9 +999,12 @@
                 <h1 id="in-title">Record Inflow</h1>
                 <p class="subtitle">Log client payments &amp; deposits.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
         </header>
         <div class="form-group">
             <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
@@ -1039,9 +1042,12 @@
                 <h1 id="out-title">Record Expense</h1>
                 <p class="subtitle">Log studio overheads &amp; payouts.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
         </header>
         <div class="form-group">
             <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
@@ -1095,7 +1101,7 @@
             <input type="text" id="client-search-input" placeholder="Search customer, order or dress..." oninput="renderOrders()">
         </div>
 
-        <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order')">+ Create New Order</button>
+        <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order');">+ Create / Resume Order</button>
         <div id="orders-list"></div>
     </div>
 
@@ -1106,9 +1112,12 @@
                 <h1 id="ord-title">New Order</h1>
                 <p class="subtitle">Custom tailoring &amp; instant profit calculator.</p>
             </div>
-            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+            </div>
         </header>
 
         <div class="form-group">
@@ -1753,7 +1762,8 @@
     }
 
     function navTo(viewId, navElement = null, dockElement = null) {
-        resetForms();
+        // Form resets are no longer run automatically when navigating tabs! 
+        // This preserves your half-filled forms when checking the calculator.
         forceNavTo(viewId, navElement, dockElement);
     }
 
@@ -1916,7 +1926,9 @@
 
         const tx = { id: editingTxId || Date.now().toString(), type: 'in', amount, date, source: sourceName, category, mode };
         if (editingTxId) transactions[transactions.findIndex(t => t.id === editingTxId)] = tx; else transactions.push(tx);
-        saveData(); navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
+        saveData(); 
+        resetForms(); // Forms clear ONLY when save is successful
+        navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
     }
 
     function savePaisaGaya() {
@@ -1933,7 +1945,9 @@
 
         const tx = { id: editingTxId || Date.now().toString(), type: 'out', amount, date: document.getElementById('out-date').value, category: document.getElementById('out-category').value, payee: payeeName, mode: document.getElementById('out-mode').value };
         if (editingTxId) transactions[transactions.findIndex(t => t.id === editingTxId)] = tx; else transactions.push(tx);
-        saveData(); navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
+        saveData(); 
+        resetForms(); // Forms clear ONLY when save is successful
+        navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
     }
 
     function saveOrder() {
@@ -1998,7 +2012,10 @@
         });
         if (other > 0) transactions.push({ id: baseId + 'D', orderId, type: 'out', amount: other, date: orderDate, payee: `Accessories for ${customer}`, category: 'Accessories', mode });
 
-        saveData(); alert("Order saved successfully!"); navTo('view-orders', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
+        saveData(); 
+        resetForms(); // Forms clear ONLY when save is successful
+        alert("Order saved successfully!"); 
+        navTo('view-orders', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
     }
 
     function receivePending(orderId) {
@@ -2283,8 +2300,7 @@
                         <div class="products-list-display">Items: ${itemsStr}</div>
                         
                         <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:8px;">
-                            <span style="color:var(--success); font-weight:600;">Paid: ${formatMoney(ord.receivedAmount)}</span>
-                            ${pending > 0 ? `<span class="text-warning" style="font-weight:600;">Pending: ${formatMoney(pending)}</span>` : ''}
+                            <span style="color:var(--success); font-weight:600;">Paid: ${formatMoney(ord.receivedAmount)}</span>${pending > 0 ? `<span class="text-warning" style="font-weight:600;">Pending: ${formatMoney(pending)}</span>` : ''}
                         </div>
                         
                         <div class="action-bar" style="padding-top:10px; margin-top:6px;">
