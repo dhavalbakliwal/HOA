@@ -616,7 +616,7 @@
             <input type="hidden" id="in-mode" value="Cash">
         </div>
         <button class="btn-save" onclick="savePaisaAaya()" id="in-save-btn">Save Entry</button>
-        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
+        <button class="btn-outline" onclick="confirmClearForm('view-dashboard')" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 3. MONEY OUT -->
@@ -661,7 +661,7 @@
             <input type="hidden" id="out-mode" value="Cash">
         </div>
         <button class="btn-save" onclick="savePaisaGaya()" id="out-save-btn">Save Expense</button>
-        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
+        <button class="btn-outline" onclick="confirmClearForm('view-dashboard')" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 4. CLIENTS OVERVIEW -->
@@ -761,7 +761,7 @@
         </div>
 
         <button class="btn-save" onclick="saveOrder()" id="ord-save-btn">Save Order</button>
-        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
+        <button class="btn-outline" onclick="confirmClearForm('view-orders')" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 6. SUMMARY & REPORTS -->
@@ -1374,9 +1374,14 @@
         checkDraftStatus();
     }
 
-    function confirmClearForm() {
+    function confirmClearForm(targetViewId = 'view-orders') {
         if (confirm("Are you sure you want to clear this form? All entered details will be lost.")) {
             resetForms();
+            if(targetViewId === 'view-orders') {
+                navTo('view-orders', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
+            } else {
+                navTo('view-dashboard', document.getElementById('nav-home'), document.getElementById('dock-home'));
+            }
         }
     }
 
