@@ -57,7 +57,6 @@
             --inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
         }
 
-        /* Hide scrollbars globally across browsers */
         ::-webkit-scrollbar { display: none; }
         html { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -233,7 +232,7 @@
         .desktop-dock { display: none; }
 
         .icon-svg {
-            width: 20px; height: 20px; stroke: currentColor; stroke-width: 1.8;
+            width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8;
             stroke-linecap: round; stroke-linejoin: round; fill: none;
             display: inline-block; vertical-align: middle; transition: transform 0.2s ease;
         }
@@ -249,8 +248,10 @@
             border: var(--card-border); width: 44px; height: 44px; border-radius: 16px; display: flex;
             align-items: center; justify-content: center; color: var(--primary); cursor: pointer;
             box-shadow: var(--shadow-sm); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+            flex-shrink: 0;
         }
         .theme-toggle-btn:active { transform: scale(0.92); }
+        .theme-toggle-btn .icon-svg { width: 22px !important; height: 22px !important; }
 
         .view { display: none; padding: 0 0 20px; opacity: 0; transform: translateY(12px); }
         .view.active { display: block; animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -315,7 +316,7 @@
             border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15), var(--inner-glow); 
         }
 
-        /* FIX: Prevents Browser Autofill from changing the dialogue box background colors */
+        /* Autofill Color Fix */
         input:-webkit-autofill,
         input:-webkit-autofill:hover, 
         input:-webkit-autofill:focus, 
@@ -379,7 +380,7 @@
         .btn-outline {
             width: 100%; padding: 16px; border-radius: 16px; border: 1.5px dashed var(--accent-gold); background: var(--surface-glass);
             backdrop-filter: blur(12px); color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px;
-            margin-bottom: 14px; transition: all 0.2s ease;
+            margin-bottom: 14px; transition: all 0.2s ease; text-align: center; display: block; text-decoration: none;
         }
         .btn-outline:active { background: rgba(197,160,89,0.08); }
 
@@ -584,12 +585,9 @@
                 <h1 id="in-title">Record Inflow</h1>
                 <p class="subtitle">Log client payments &amp; deposits.</p>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
-                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-            </div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
         <div class="form-group">
             <label class="flex-between">Amount Received <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('in-amount', 'in-source')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
@@ -618,6 +616,7 @@
             <input type="hidden" id="in-mode" value="Cash">
         </div>
         <button class="btn-save" onclick="savePaisaAaya()" id="in-save-btn">Save Entry</button>
+        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 3. MONEY OUT -->
@@ -627,12 +626,9 @@
                 <h1 id="out-title">Record Expense</h1>
                 <p class="subtitle">Log studio overheads &amp; payouts.</p>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
-                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-            </div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
         <div class="form-group">
             <label class="flex-between">Amount Spent <button type="button" class="btn-small btn-edit" onclick="startVoiceInput('out-amount', 'out-payee')"><svg class="icon-svg" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg> Speak</button></label>
@@ -665,6 +661,7 @@
             <input type="hidden" id="out-mode" value="Cash">
         </div>
         <button class="btn-save" onclick="savePaisaGaya()" id="out-save-btn">Save Expense</button>
+        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 4. CLIENTS OVERVIEW -->
@@ -686,8 +683,10 @@
             <input type="text" id="client-search-input" placeholder="Search customer, order or dress..." oninput="renderOrders()">
         </div>
 
-        <!-- The button here directly uses navTo to go to the form without resetting -->
-        <button class="btn-save" style="margin-bottom: 16px;" onclick="navTo('view-new-order');">+ Create / Resume Order</button>
+        <div id="client-action-buttons" style="margin-bottom: 16px;">
+            <button class="btn-save" style="margin-bottom: 8px; margin-top: 0;" onclick="startNewOrderFresh()">+ Create New Order</button>
+            <button id="resume-order-btn" class="btn-outline" style="display:none;" onclick="navTo('view-new-order')">Resume Current Order ✍️</button>
+        </div>
         <div id="orders-list"></div>
     </div>
 
@@ -698,17 +697,14 @@
                 <h1 id="ord-title">New Order</h1>
                 <p class="subtitle">Custom tailoring &amp; instant profit calculator.</p>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <button class="btn-small btn-delete" onclick="resetForms()" style="padding: 10px 14px; margin: 0; font-size: 11px;">Clear Form</button>
-                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
-                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-            </div>
+            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            </button>
         </header>
 
         <div class="form-group">
             <label>Client Name</label>
-            <input type="text" id="ord-customer" list="customer-suggestions" placeholder="E.g., Neha">
+            <input type="text" id="ord-customer" list="customer-suggestions" placeholder="E.g., Neha" oninput="checkDraftStatus()">
         </div>
         
         <div class="form-group">
@@ -745,7 +741,7 @@
 
         <h3 class="section-title">Cost of Production</h3>
         
-        <div class="form-group"><label>Total Fabric Cost</label><input type="number" id="ord-fabric" placeholder="₹0" oninput="calculateOrderProfit()"></div>
+        <div class="form-group"><label>Total Fabric Cost</label><input type="number" id="ord-fabric" placeholder="₹0" oninput="calculateOrderProfit(); checkDraftStatus();"></div>
         
         <div class="form-group">
             <label>Karigar Payouts</label>
@@ -753,7 +749,7 @@
             <button class="btn-outline" onclick="addKarigarField()">+ Add Another Karigar</button>
         </div>
 
-        <div class="form-group"><label>Accessories &amp; Other Expenses</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit()"></div>
+        <div class="form-group"><label>Accessories &amp; Other Expenses</label><input type="number" id="ord-other" placeholder="₹0" oninput="calculateOrderProfit(); checkDraftStatus();"></div>
 
         <div class="calc-box">
             <div class="calc-row"><span>Total Bill:</span> <span id="calc-price">₹0</span></div>
@@ -765,6 +761,7 @@
         </div>
 
         <button class="btn-save" onclick="saveOrder()" id="ord-save-btn">Save Order</button>
+        <button class="btn-outline" onclick="confirmClearForm()" style="color:var(--danger); border-color:var(--danger); margin-top:10px;">Clear Form</button>
     </div>
 
     <!-- 6. SUMMARY & REPORTS -->
@@ -1023,7 +1020,7 @@
         </button>
     </nav>
 
-    <!-- NEW SMART MOBILE BOTTOM NAVIGATION -->
+    <!-- SMART MOBILE BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
         <div class="nav-item active" id="nav-home" onclick="handleNavHome(this, document.getElementById('dock-home'))">
             <span class="nav-icon">
@@ -1070,7 +1067,6 @@
     let activeCollectOrderId = null;
     let calcExpression = "0";
 
-    // Variables for Smart Navigation Memory (App Yaad Rakhega last view)
     let currentOrdersView = 'view-orders';
     let currentHomeView = 'view-dashboard';
 
@@ -1193,7 +1189,6 @@
     // --- SMART NAVIGATION LOGIC ---
     function handleNavHome(navEl, dockEl) {
         const activeView = document.querySelector('.view.active').id;
-        // Agar pehle se hi kisi Home ke tab par hain, to root Home par jaye. Varna last chode hue Home view par.
         if (activeView === 'view-dashboard' || activeView === 'view-paisa-aaya' || activeView === 'view-paisa-gaya') {
             navTo('view-dashboard', navEl, dockEl);
         } else {
@@ -1203,7 +1198,6 @@
 
     function handleNavOrders(navEl, dockEl) {
         const activeView = document.querySelector('.view.active').id;
-        // Agar pehle se hi kisi Clients ke tab (New Order) par hain, to root Clients list par back jaye. Varna last order form par open ho.
         if (activeView === 'view-orders' || activeView === 'view-new-order') {
             navTo('view-orders', navEl, dockEl);
         } else {
@@ -1212,7 +1206,6 @@
     }
 
     function navTo(viewId, navElement = null, dockElement = null) {
-        // Tracker update karo jab tab badle
         if (viewId === 'view-orders' || viewId === 'view-new-order') {
             currentOrdersView = viewId;
         }
@@ -1223,7 +1216,6 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById(viewId).classList.add('active');
 
-        // Nav Active State Handling
         if (navElement) {
             document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
             navElement.classList.add('active');
@@ -1259,7 +1251,6 @@
         refreshAllData();
         window.scrollTo(0, 0);
     }
-    // -----------------------------
 
     function switchCalcSubMode(mode) {
         document.getElementById('calc-tab-calc').classList.toggle('active', mode === 'calc');
@@ -1363,17 +1354,51 @@
         
         ['in-amount', 'in-source', 'out-amount', 'out-payee', 
          'ord-customer', 'ord-total-price', 'ord-received', 
-         'ord-fabric', 'ord-other'].forEach(id => document.getElementById(id).value = '');
+         'ord-fabric', 'ord-other'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.value = '';
+        });
         
         setPayType('Full');
-        document.getElementById('in-date').value = new Date().toISOString().split('T')[0];
-        document.getElementById('out-date').value = new Date().toISOString().split('T')[0];
+        const inDate = document.getElementById('in-date');
+        const outDate = document.getElementById('out-date');
+        if(inDate) inDate.value = new Date().toISOString().split('T')[0];
+        if(outDate) outDate.value = new Date().toISOString().split('T')[0];
         
-        document.getElementById('products-container').innerHTML = '';
-        addProductField();
-        document.getElementById('karigars-container').innerHTML = '';
-        addKarigarField();
+        const pCont = document.getElementById('products-container');
+        if(pCont) { pCont.innerHTML = ''; addProductField(); }
+        const kCont = document.getElementById('karigars-container');
+        if(kCont) { kCont.innerHTML = ''; addKarigarField(); }
+        
         calculateOrderProfit();
+        checkDraftStatus();
+    }
+
+    function confirmClearForm() {
+        if (confirm("Are you sure you want to clear this form? All entered details will be lost.")) {
+            resetForms();
+        }
+    }
+
+    function hasActiveOrderDraft() {
+        const cust = document.getElementById('ord-customer').value.trim();
+        const fabric = document.getElementById('ord-fabric').value.trim();
+        const other = document.getElementById('ord-other').value.trim();
+        let hasProduct = false;
+        document.querySelectorAll('.p-price').forEach(input => { if(input.value.trim()) hasProduct = true; });
+        return cust !== '' || fabric !== '' || other !== '' || hasProduct || editingOrderId !== null;
+    }
+
+    function checkDraftStatus() {
+        const resumeBtn = document.getElementById('resume-order-btn');
+        if (resumeBtn) {
+            resumeBtn.style.display = hasActiveOrderDraft() ? 'block' : 'none';
+        }
+    }
+
+    function startNewOrderFresh() {
+        resetForms();
+        navTo('view-new-order');
     }
 
     function refreshAllData() {
@@ -1382,6 +1407,7 @@
         renderOrders();
         populateMonthDropdown();
         renderSummary();
+        checkDraftStatus();
     }
 
     function setMode(type, mode) {
@@ -1415,11 +1441,12 @@
         const div = document.createElement('div');
         div.className = 'input-row';
         div.innerHTML = `
-            <input type="text" class="p-name" placeholder="Product Name" value="${name}" style="flex:2;">
-            <input type="number" class="p-price" placeholder="₹ Price" value="${price}" style="flex:1;" oninput="calculateOrderProfit()">
-            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
+            <input type="text" class="p-name" placeholder="Product Name" value="${name}" style="flex:2;" oninput="checkDraftStatus()">
+            <input type="number" class="p-price" placeholder="₹ Price" value="${price}" style="flex:1;" oninput="calculateOrderProfit(); checkDraftStatus();">
+            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit(); checkDraftStatus();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
         `;
         container.appendChild(div);
+        checkDraftStatus();
     }
 
     function addKarigarField(name = '', cost = '') {
@@ -1427,11 +1454,12 @@
         const div = document.createElement('div');
         div.className = 'input-row';
         div.innerHTML = `
-            <input type="text" class="k-name" list="karigar-suggestions" placeholder="Karigar Name" value="${name}" style="flex:1;">
-            <input type="number" class="k-cost" placeholder="₹ Cost" value="${cost}" style="flex:1;" oninput="calculateOrderProfit()">
-            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
+            <input type="text" class="k-name" list="karigar-suggestions" placeholder="Karigar Name" value="${name}" style="flex:1;" oninput="checkDraftStatus()">
+            <input type="number" class="k-cost" placeholder="₹ Cost" value="${cost}" style="flex:1;" oninput="calculateOrderProfit(); checkDraftStatus();">
+            <button type="button" onclick="this.parentElement.remove(); calculateOrderProfit(); checkDraftStatus();" style="background:var(--danger); color:white; border:none; border-radius:12px; padding:0 12px; cursor:pointer; font-weight:bold;">×</button>
         `;
         container.appendChild(div);
+        checkDraftStatus();
     }
 
     function calculateOrderProfit() {
