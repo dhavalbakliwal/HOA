@@ -60,7 +60,7 @@
         ::-webkit-scrollbar { display: none; }
         html { -ms-overflow-style: none; scrollbar-width: none; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+- { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body {
             background-color: var(--bg-color);
@@ -705,6 +705,11 @@
         <div class="form-group">
             <label>Client Name</label>
             <input type="text" id="ord-customer" list="customer-suggestions" placeholder="E.g., Neha" oninput="checkDraftStatus()">
+        </div>
+
+        <div class="form-group">
+            <label>Order / Bill Date</label>
+            <input type="date" id="ord-date">
         </div>
         
         <div class="form-group">
@@ -1362,8 +1367,10 @@
         setPayType('Full');
         const inDate = document.getElementById('in-date');
         const outDate = document.getElementById('out-date');
+        const ordDate = document.getElementById('ord-date');
         if(inDate) inDate.value = new Date().toISOString().split('T')[0];
         if(outDate) outDate.value = new Date().toISOString().split('T')[0];
+        if(ordDate) ordDate.value = new Date().toISOString().split('T')[0];
         
         const pCont = document.getElementById('products-container');
         if(pCont) { pCont.innerHTML = ''; addProductField(); }
@@ -1579,7 +1586,8 @@
         });
 
         const orderId = editingOrderId || Date.now().toString();
-        const orderDate = new Date().toISOString().split('T')[0];
+        const existingOrder = editingOrderId ? orders.find(o => o.id === editingOrderId) : null;
+        const orderDate = document.getElementById('ord-date').value || (existingOrder ? existingOrder.date : new Date().toISOString().split('T')[0]);
         const itemNamesStr = items.map(i => i.name).join(', ');
 
         const orderObj = {
@@ -2020,6 +2028,7 @@
         if (!o) return;
         resetForms(); editingOrderId = id;
         document.getElementById('ord-customer').value = o.customer;
+        document.getElementById('ord-date').value = o.date || new Date().toISOString().split('T')[0];
         
         const pCont = document.getElementById('products-container'); pCont.innerHTML = '';
         o.items.forEach(i => addProductField(i.name, i.price));
