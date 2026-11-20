@@ -480,6 +480,99 @@
             #bill-modal { position: absolute; left: 0; top: 0; background: white; padding: 0; width: 100%; }
             .no-print { display: none !important; }
         }
+
+        /* Mobile layout corrections: scoped to phone/tablet widths. */
+        @media (max-width: 1023px) {
+            html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+            body { padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px)); }
+            .app-container { width: 100%; max-width: 480px; padding-left: 16px; padding-right: 16px; }
+            .view, .form-group, #products-container, #karigars-container { min-width: 0; max-width: 100%; }
+            .form-group input, .form-group select, .form-group textarea { display: block; max-width: 100%; min-width: 0; font-size: 16px; }
+            /* Keep product name, price and delete control in one aligned row. */
+            #products-container > .input-row {
+                display: grid;
+                grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr) 42px;
+                align-items: stretch;
+                gap: 8px;
+                width: 100%;
+                min-width: 0;
+                margin-bottom: 10px;
+            }
+            #products-container > .input-row > input {
+                display: block;
+                width: 100%;
+                min-width: 0;
+                height: 54px;
+                min-height: 54px;
+                padding: 0 12px;
+                font-size: 16px;
+                line-height: normal;
+                border-radius: 16px;
+            }
+            #products-container > .input-row > button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 42px;
+                min-width: 42px;
+                height: 54px;
+                min-height: 54px;
+                padding: 0 !important;
+                margin: 0;
+                line-height: 1;
+                font-size: 20px;
+                flex: none;
+            }
+            #view-new-order .radio-group { width: 100%; min-width: 0; }
+            #view-new-order .radio-btn { min-width: 0; padding: 14px 6px; font-size: clamp(11px, 3.3vw, 13px); }
+            #view-new-order header { gap: 12px; }
+            #view-new-order .header-title-box { min-width: 0; flex: 1; }
+            #view-new-order .header-title-box .subtitle { overflow-wrap: anywhere; line-height: 1.5; }
+            /* iOS Safari sometimes centers the native date value despite text-align. */
+            #ord-date {
+                display: block;
+                width: 100%;
+                min-width: 0;
+                height: 56px;
+                min-height: 56px;
+                padding: 0 18px;
+                border-radius: 18px;
+                box-sizing: border-box;
+                text-align: left;
+                text-align-last: left;
+                font-size: 16px;
+                line-height: normal;
+                color: var(--primary);
+                background-color: var(--surface-color);
+                -webkit-appearance: none;
+                appearance: none;
+                color-scheme: light;
+            }
+            [data-theme="dark"] #ord-date { color-scheme: dark; }
+            #ord-date::-webkit-date-and-time-value {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                min-height: 100%;
+                text-align: left;
+            }
+            #ord-date::-webkit-datetime-edit {
+                display: inline-flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 0;
+                text-align: left;
+            }
+            .bottom-nav { width: calc(100% - 32px); max-width: 448px; left: 50%; right: auto; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); margin: 0; padding: 10px 4px; }
+            .bottom-nav .nav-item { flex: 1; min-width: 0; padding: 4px 2px; text-align: center; }
+        }
+        @media (max-width: 360px) {
+            .app-container { padding-left: 12px; padding-right: 12px; }
+            #products-container > .input-row { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) 38px; gap: 6px; }
+            #products-container > .input-row > button { width: 38px; min-width: 38px; }
+            #products-container > .input-row > input { padding: 0 9px; font-size: 14px; }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -709,7 +802,7 @@
         
         <div class="form-group">
             <label for="ord-date">Bill Date</label>
-            <input type="date" id="ord-date" oninput="checkDraftStatus()">
+            <input type="date" id="ord-date" aria-label="Bill Date">
         </div>
 
         <div class="form-group">
@@ -1067,8 +1160,6 @@
     let currentSummaryMode = 'monthly';
     let editingTxId = null;
     let editingOrderId = null;
-    let initialBillDate = '';
-    let initialOrderMode = 'Cash';
     let activeBillOrder = null;
     let activeMeasureCustomer = null;
     let activeCollectOrderId = null;
@@ -1352,30 +1443,9 @@
         karigarList.innerHTML = Array.from(uniqueKarigars).map(name => `<option value="${name}">`).join('');
     }
 
-    function localToday() {
-        const now = new Date();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        return `${now.getFullYear()}-${month}-${day}`;
-    }
-
-    function getBillDate(order) {
-        return order.billDate || order.date;
-    }
-
-    function getInvoiceTransactions(orderId) {
-        return transactions.filter(tx => tx.orderId === orderId &&
-            (tx.category === 'Full Payment' || tx.category === 'Fabric' ||
-             tx.category === 'Karigar' || tx.category === 'Accessories'));
-    }
-
     function resetForms() {
         editingTxId = null;
         editingOrderId = null;
-        initialBillDate = localToday();
-        document.getElementById('ord-date').value = initialBillDate;
-        initialOrderMode = 'Cash';
-        setMode('ord', initialOrderMode);
         document.getElementById('in-save-btn').innerText = "Save Entry";
         document.getElementById('out-save-btn').innerText = "Save Expense";
         document.getElementById('ord-save-btn').innerText = "Save Order";
@@ -1392,6 +1462,8 @@
         const outDate = document.getElementById('out-date');
         if(inDate) inDate.value = new Date().toISOString().split('T')[0];
         if(outDate) outDate.value = new Date().toISOString().split('T')[0];
+        const orderDateField = document.getElementById('ord-date');
+        if(orderDateField) orderDateField.value = new Date().toLocaleDateString('en-CA');
         
         const pCont = document.getElementById('products-container');
         if(pCont) { pCont.innerHTML = ''; addProductField(); }
@@ -1419,8 +1491,7 @@
         const other = document.getElementById('ord-other').value.trim();
         let hasProduct = false;
         document.querySelectorAll('.p-price').forEach(input => { if(input.value.trim()) hasProduct = true; });
-        return document.getElementById('ord-date').value !== initialBillDate ||
-            cust !== '' || fabric !== '' || other !== '' || hasProduct || editingOrderId !== null;
+        return cust !== '' || fabric !== '' || other !== '' || hasProduct || editingOrderId !== null;
     }
 
     function checkDraftStatus() {
@@ -1448,7 +1519,7 @@
         document.getElementById(`${type}-mode`).value = mode;
         document.getElementById(`btn-${type}-cash`).classList.remove('selected');
         document.getElementById(`btn-${type}-online`).classList.remove('selected');
-        document.getElementById(`btn-${type}-${mode.toLowerCase()}`)?.classList.add('selected');
+        document.getElementById(`btn-${type}-${mode.toLowerCase()}`).classList.add('selected');
     }
 
     function setPayType(type) {
@@ -1590,28 +1661,7 @@
 
         if (totalPrice <= 0 || items.length === 0) return alert("Please add at least one product and price.");
 
-        const existingOrder = orders.find(order => order.id === editingOrderId);
-        if (editingOrderId && !existingOrder) return alert("This order is no longer available.");
-
-        const dateInput = document.getElementById('ord-date');
-        const dateChanged = !existingOrder || dateInput.value !== initialBillDate;
-        if (dateChanged && (!dateInput.value || !dateInput.validity.valid)) {
-            return alert("Please enter a valid bill date.");
-        }
-        const orderDate = dateChanged ? dateInput.value : getBillDate(existingOrder);
-
-        const invoiceTransactions = existingOrder ? getInvoiceTransactions(existingOrder.id) : [];
-        const initialPayment = invoiceTransactions.find(tx => tx.category === 'Full Payment');
-        // The order balance also includes payments recorded after the original bill.
-        const laterPayments = existingOrder
-            ? Math.max(0, existingOrder.receivedAmount - (initialPayment?.amount || 0))
-            : 0;
-        const receivedAmount = payType === 'Part'
-            ? (parseFloat(document.getElementById('ord-received').value) || 0)
-            : Math.max(totalPrice, laterPayments);
-        if (receivedAmount < laterPayments) {
-            return alert("Payment received must include the payments already recorded for this order.");
-        }
+        let receivedAmount = (payType === 'Part') ? (parseFloat(document.getElementById('ord-received').value) || 0) : totalPrice;
         const fabric = parseFloat(document.getElementById('ord-fabric').value) || 0;
         const other = parseFloat(document.getElementById('ord-other').value) || 0;
         
@@ -1628,77 +1678,32 @@
             if (kCost > 0) { karigars.push({ name: kName, cost: kCost }); karigarTotal += kCost; }
         });
 
-        const timestamp = Date.now();
-        let orderId = existingOrder?.id || String(timestamp);
-        while (!existingOrder && orders.some(order => order.id === orderId)) {
-            orderId = String(Number(orderId) + 1);
-        }
-        const savedAt = new Date(timestamp).toISOString();
+        const orderId = editingOrderId || Date.now().toString();
+        const existingOrder = editingOrderId ? orders.find(o => o.id === editingOrderId) : null;
+        const orderDate = document.getElementById('ord-date').value || (existingOrder && existingOrder.date) || new Date().toLocaleDateString('en-CA');
         const itemNamesStr = items.map(i => i.name).join(', ');
 
         const orderObj = {
-            ...existingOrder,
-            id: orderId, customer, items,
+            id: orderId, date: orderDate, customer, items,
             totalPrice, receivedAmount,
             fabric, karigars, other,
             totalCost: fabric + karigarTotal + other,
-            profit: totalPrice - (fabric + karigarTotal + other),
-            updatedAt: savedAt
+            profit: totalPrice - (fabric + karigarTotal + other)
         };
-        if (dateChanged || orderDate) {
-            orderObj.billDate = orderDate;
-            orderObj.date = orderDate;
+
+        if (editingOrderId) {
+            orders = orders.filter(o => o.id !== editingOrderId);
+            transactions = transactions.filter(t => t.orderId !== editingOrderId);
         }
-        if (!existingOrder) orderObj.createdAt = savedAt;
+        orders.push(orderObj);
 
-        const initialAmount = receivedAmount - laterPayments;
-        const entries = [];
-        if (initialAmount > 0) entries.push({
-            suffix: 'A', type: 'in', amount: initialAmount,
-            source: `${customer} (${itemNamesStr})`, category: 'Full Payment'
+        const baseId = Date.now();
+        if (receivedAmount > 0) transactions.push({ id: baseId + 'A', orderId, type: 'in', amount: receivedAmount, date: orderDate, source: `${customer} (${itemNamesStr})`, category: 'Full Payment', mode });
+        if (fabric > 0) transactions.push({ id: baseId + 'B', orderId, type: 'out', amount: fabric, date: orderDate, payee: `Fabric for ${customer}`, category: 'Fabric', mode });
+        karigars.forEach((k, index) => {
+            transactions.push({ id: baseId + 'C' + index, orderId, type: 'out', amount: k.cost, date: orderDate, payee: `${k.name} (Stitching for ${customer})`, category: 'Karigar', mode });
         });
-        if (fabric > 0) entries.push({
-            suffix: 'B', type: 'out', amount: fabric,
-            payee: `Fabric for ${customer}`, category: 'Fabric'
-        });
-        karigars.forEach((k, index) => entries.push({
-            suffix: 'C' + index, type: 'out', amount: k.cost,
-            payee: `${k.name} (Stitching for ${customer})`, category: 'Karigar'
-        }));
-        if (other > 0) entries.push({
-            suffix: 'D', type: 'out', amount: other,
-            payee: `Accessories for ${customer}`, category: 'Accessories'
-        });
-
-        const unmatched = new Set(invoiceTransactions);
-        const replacements = new Map();
-        const additions = [];
-        const usedIds = new Set(transactions.map(tx => tx.id));
-        entries.forEach(({ suffix, ...entry }) => {
-            const candidates = Array.from(unmatched).filter(tx => tx.category === entry.category);
-            const previous = candidates.find(tx => tx.payee === entry.payee) || candidates[0];
-            if (previous) {
-                unmatched.delete(previous);
-                const updated = { ...previous, ...entry };
-                if (dateChanged) updated.date = orderDate;
-                if (mode !== initialOrderMode) updated.mode = mode;
-                replacements.set(previous, updated);
-                return;
-            }
-
-            let idBase = timestamp;
-            while (usedIds.has(idBase + suffix)) idBase++;
-            const id = idBase + suffix;
-            usedIds.add(id);
-            additions.push({ id, orderId, ...entry, date: orderDate, mode });
-        });
-        transactions = transactions
-            .filter(tx => !unmatched.has(tx))
-            .map(tx => replacements.get(tx) || tx)
-            .concat(additions);
-
-        if (existingOrder) orders[orders.indexOf(existingOrder)] = orderObj;
-        else orders.push(orderObj);
+        if (other > 0) transactions.push({ id: baseId + 'D', orderId, type: 'out', amount: other, date: orderDate, payee: `Accessories for ${customer}`, category: 'Accessories', mode });
 
         saveData(); resetForms(); alert("Order saved successfully!"); 
         navTo('view-orders', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
@@ -1784,7 +1789,7 @@
         if(!order) return;
         activeBillOrder = order;
 
-        document.getElementById('inv-date').innerText = `Date: ${getBillDate(order) || ''}`;
+        document.getElementById('inv-date').innerText = `Date: ${order.date}`;
         document.getElementById('inv-customer-name').innerText = order.customer;
         document.getElementById('inv-id').innerText = `#AO-${order.id.slice(-6)}`;
         
@@ -1813,7 +1818,7 @@
         let msg = `*House of Adheera* - Digital Bill\n` +
                   `------------------\n` +
                   `*Client:* ${o.customer}\n` +
-                  `*Date:* ${getBillDate(o) || ''}\n\n` +
+                  `*Date:* ${o.date}\n\n` +
                   `*Items:*\n${itemsText}\n\n` +
                   `*Total:* ${formatMoney(o.totalPrice)}\n` +
                   `*Paid:* ${formatMoney(o.receivedAmount)}\n` +
@@ -1942,7 +1947,7 @@
                     return `
                     <div class="order-sub-item">
                         <div style="display:flex; justify-content:space-between; font-size:12px;">
-                            <span style="color:var(--text-muted); font-weight:500;">${getBillDate(ord) || ''}</span>
+                            <span style="color:var(--text-muted); font-weight:500;">${ord.date}</span>
                             <span style="font-weight:700; color:var(--primary);">Bill: ${formatMoney(ord.totalPrice)}</span>
                         </div>
                         <div class="products-list-display">Items: ${itemsStr}</div>
@@ -2115,24 +2120,18 @@
         const o = orders.find(x => x.id === id);
         if (!o) return;
         resetForms(); editingOrderId = id;
-        const dateInput = document.getElementById('ord-date');
-        dateInput.value = getBillDate(o) || '';
-        initialBillDate = dateInput.value;
-        const invoiceTransactions = getInvoiceTransactions(o.id);
-        initialOrderMode = invoiceTransactions.find(tx => tx.category === 'Full Payment')?.mode ||
-            invoiceTransactions[0]?.mode || 'Cash';
-        setMode('ord', initialOrderMode);
         document.getElementById('ord-customer').value = o.customer;
+        document.getElementById('ord-date').value = o.date || '';
         
         const pCont = document.getElementById('products-container'); pCont.innerHTML = '';
         o.items.forEach(i => addProductField(i.name, i.price));
 
-        setPayType(o.receivedAmount === o.totalPrice ? 'Full' : 'Part');
-        if (o.receivedAmount !== o.totalPrice) document.getElementById('ord-received').value = o.receivedAmount;
+        (o.receivedAmount < o.totalPrice) ? setPayType('Part') : setPayType('Full');
+        if (o.receivedAmount < o.totalPrice) document.getElementById('ord-received').value = o.receivedAmount;
         document.getElementById('ord-fabric').value = o.fabric; document.getElementById('ord-other').value = o.other;
 
         const kCont = document.getElementById('karigars-container'); kCont.innerHTML = '';
-        (o.karigars || []).forEach(k => addKarigarField(k.name, k.cost));
+        o.karigars.forEach(k => addKarigarField(k.name, k.cost));
 
         document.getElementById('ord-title').innerText = "Edit Order"; document.getElementById('ord-save-btn').innerText = "Update Order";
         calculateOrderProfit(); navTo('view-new-order', document.getElementById('nav-orders'), document.getElementById('dock-orders'));
